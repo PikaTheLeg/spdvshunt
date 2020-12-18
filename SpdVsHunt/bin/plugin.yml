@@ -1,0 +1,12 @@
+name: SpdVsHunt
+version: 1.1
+api-version: 1.16
+author: PikaLegend_
+main: me.pikalegend.spdvshunt.Main
+description: A plugin for running Speedrunner Vs Hunter games, as inspired by Minecraft Manhunt by Dream. Do /svh help for more commands.
+
+commands:
+  spdVsHunt:
+    description: Main command line for joining teams, change settings and reset for Speedrunner Vs Hunter games. Do /svh help for help on these commands.
+    aliases: svh
+    usage: "SpdVsHunt Usage: \n /<command> join [speedrunner|hunter|none] <playername> \n /<command> settings [hunterBarInfo|runnerCompass] \n /<command> reset \n /<command> help [join|settings|reset]"
