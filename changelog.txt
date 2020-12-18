@@ -1,10 +1,12 @@
-SpdVSHunt 1.0 (Soft Release)
+SpdVsHunt 1.0 (Soft Release)
 A complete SpdVsHunt plugin has been created, which implements the following:
 -	Added Team Joining functionality with win conditions. (/svh join [speedrunner|hunter|none])
 -	Added Lodestone Tracker Compass which tracks last known coordinates of a speedrunner in your current world. These coordinates are saved in a scoreboard for three separate dimensions, hence the plugin should work even when you are in different dimensions!
 -	Cycle through speedrunners you track by right clicking the tracker compass. (if there are multiple speedrunners)
--	Added settings: Give hunters an action bar which shows more information like distance and dimensions of the hunters, or give speedrunners a compass to track other speedrunners so they don’t get lost! (/svh settings [hunterBarInfo|runnerCompass])
+
+SpdVsHunt 1.1 (QoL Changes)
 -	Added reset: If you encounter any game-breaking bugs or just want a rematch in the same world, this clears scoreboards and teams for a restart. (/svh reset) 
 -	Added help: My attempt at explaining what each commands do in-game. (/svh help)
 -	Support for auto-complete commands to make it less confusing to work with!
+-	Added settings: Give hunters an action bar which shows more information like distance and dimensions of the hunters, or give speedrunners a compass to track other speedrunners so they don’t get lost! (/svh settings [hunterBarInfo|runnerCompass])
 -	Replaced messy newbie spaghetti code with less messy newbie spaghetti code. Sorry guys, this is my first real Minecraft plugin after all!
