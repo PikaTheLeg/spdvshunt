@@ -1,6 +1,7 @@
 package collab.pikaandlucas.spdvshunt.listeners;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -48,6 +49,8 @@ public class ClickCompass implements Listener {
 	
 	@EventHandler
 	public void onClick(PlayerInteractEvent e) {
+		ArrayList<String> aliveRunners = Utils.aliveRunners(board);
+		
 		if (hunters.hasEntry(e.getPlayer().getName())) {
 			// Checks that the player is participating in SpdVsHunt
 			Player player = e.getPlayer();
@@ -59,7 +62,7 @@ public class ClickCompass implements Listener {
 					// Then player is clicking with the compass.
 					playerSelect = compassSelector.getScore(player.getName());
 
-					if (speedrunners.getEntries().size() > playerSelect.getScore() + 1) {
+					if (aliveRunners.size() > playerSelect.getScore() + 1) {
 						// Select the next Speedrunner
 						playerSelect.setScore(playerSelect.getScore() + 1);
 					} else {
@@ -67,16 +70,14 @@ public class ClickCompass implements Listener {
 						playerSelect.setScore(0);
 					}
 					
-					if (speedrunners.getSize() > 0) {
-						String[] speedrunnersArray = new String[speedrunners.getSize()];
-						speedrunners.getEntries().toArray(speedrunnersArray);
-						player.sendMessage(Utils.chat(plugin.getConfig().getString("spdVsHunt.nowTracking").replace("<player>", speedrunnersArray[playerSelect.getScore()])));
+					if (aliveRunners.size() > 0) {
+						player.sendMessage(Utils.chat(plugin.getConfig().getString("spdVsHunt.nowTracking").replace("<player>", aliveRunners.get(playerSelect.getScore()))));
 					} else {
 						player.sendMessage(Utils.chat(plugin.getConfig().getString("spdVsHunt.notTracking")));
 					}
 				}
 			}
-		} else if (speedrunners.hasEntry(e.getPlayer().getName()) && speedrunners.getSize() > 1 && plugin.getConfig().getString("options.runnerCompass").equals("true")) {
+		} else if (aliveRunners.indexOf(e.getPlayer().getName()) != -1 && aliveRunners.size() > 1 && plugin.getConfig().getString("options.runnerCompass").equals("true")) {
 			// If: There are multiple speedrunners, player is a speedrunner and speedrunners can have compasses.
 			Player player = e.getPlayer();
 			
@@ -87,7 +88,7 @@ public class ClickCompass implements Listener {
 					playerSelect = compassSelector.getScore(player.getName());
 
 					// Cycle playerSelect score.
-					if (speedrunners.getEntries().size() > playerSelect.getScore() + 1) {
+					if (aliveRunners.size() > playerSelect.getScore() + 1) {
 						// Select the next Speedrunner
 						playerSelect.setScore(playerSelect.getScore() + 1);
 					} else {
@@ -95,13 +96,10 @@ public class ClickCompass implements Listener {
 						playerSelect.setScore(0);
 					}
 					
-					// Create Speedrunners Array.
-					String[] speedrunnersArray = new String[speedrunners.getSize()];
-					speedrunners.getEntries().toArray(speedrunnersArray);
-					
-					if (speedrunnersArray[playerSelect.getScore()] == player.getName()) {
+					// If player itself is the selected person.
+					if (aliveRunners.get(playerSelect.getScore()) == player.getName()) {
 						// Player itself is currently selected. Iterate playerSelect score once more.
-						if (speedrunners.getEntries().size() > playerSelect.getScore() + 1) {
+						if (aliveRunners.size() > playerSelect.getScore() + 1) {
 							// Select the next Speedrunner
 							playerSelect.setScore(playerSelect.getScore() + 1);
 						} else {
@@ -111,7 +109,7 @@ public class ClickCompass implements Listener {
 					}
 					
 					// Send message on who they are currently tracking. 
-					player.sendMessage(Utils.chat(plugin.getConfig().getString("spdVsHunt.nowTracking").replace("<player>", speedrunnersArray[playerSelect.getScore()])));
+					player.sendMessage(Utils.chat(plugin.getConfig().getString("spdVsHunt.nowTracking").replace("<player>", aliveRunners.get(playerSelect.getScore()))));
 				}
 			}
 		}

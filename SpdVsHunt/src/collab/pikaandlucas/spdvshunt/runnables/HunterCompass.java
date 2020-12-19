@@ -1,6 +1,7 @@
 package collab.pikaandlucas.spdvshunt.runnables;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -60,11 +61,15 @@ public class HunterCompass extends BukkitRunnable {
         // While running, update Compass in Slot 8 to display coordinates of Speedrunners (if any).
 		String spdrunWorld;
 		String worldName;
+		ArrayList<String> aliveRunners = Utils.aliveRunners(board);
 	
-		if (speedrunners.getSize() > 0) {
-			String[] speedrunnersArray = new String[speedrunners.getSize()];
-			speedrunners.getEntries().toArray(speedrunnersArray);
-			Player speedrunner = Bukkit.getPlayer(speedrunnersArray[playerSelect.getScore()]);
+		if (aliveRunners.size() > 0) {
+			// If current selection is out of bounds. Set to 0.
+			if (aliveRunners.size() >= playerSelect.getScore()) {
+				playerSelect.setScore(0);
+			}
+			
+			Player speedrunner = Bukkit.getPlayer(aliveRunners.get(playerSelect.getScore()));
 			
 			World.Environment playerWorld = player.getWorld().getEnvironment();
 			World.Environment speedrunnerWorld = speedrunner.getWorld().getEnvironment();
@@ -135,7 +140,7 @@ public class HunterCompass extends BukkitRunnable {
 				}
 			}
 		} else {
-			// No Speedrunners. Send Appropriate Action Bar.
+			// No Alive Speedrunners. Send Appropriate Action Bar.
 			player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(Utils.chat(plugin.getConfig().getString("trackingBar.noSpeedrun"))));
 			Utils.giveCompass(plugin, player, 0, 0, 0, true);
 		}

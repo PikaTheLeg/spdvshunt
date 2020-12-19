@@ -1,6 +1,7 @@
 package collab.pikaandlucas.spdvshunt.runnables;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 
 import org.bukkit.Bukkit;
 import org.bukkit.World;
@@ -56,15 +57,19 @@ public class RunnerCompass extends BukkitRunnable {
  	
     @Override
     public void run() {
+		ArrayList<String> aliveRunners = Utils.aliveRunners(board);
 		// Check that speedrunners size is greater than 1
-		if (speedrunners.getSize() > 1) {
-			String[] speedrunnersArray = new String[speedrunners.getSize()];
-			speedrunners.getEntries().toArray(speedrunnersArray);
+		if (aliveRunners.size() > 1) {			
+			
+			// If current selection is out of bounds. Set to 0.
+			if (aliveRunners.size() >= playerSelect.getScore()) {
+				playerSelect.setScore(0);
+			}
 			
 			// If the current selection is the player itself, set it to some other player.
-			if (speedrunnersArray[playerSelect.getScore()] == player.getName()) {
+			if (aliveRunners.get(playerSelect.getScore()) == player.getName()) {
 				// Player itself is currently selected. Iterate playerSelect score once more.
-				if (speedrunners.getEntries().size() > playerSelect.getScore() + 1) {
+				if (aliveRunners.size() > playerSelect.getScore() + 1) {
 					// Select the next Speedrunner
 					playerSelect.setScore(playerSelect.getScore() + 1);
 				} else {
@@ -73,7 +78,7 @@ public class RunnerCompass extends BukkitRunnable {
 				}
 			}
 			
-			Player speedrunner = Bukkit.getPlayer(speedrunnersArray[playerSelect.getScore()]);
+			Player speedrunner = Bukkit.getPlayer(aliveRunners.get(playerSelect.getScore()));
 			
 			World.Environment playerWorld = player.getWorld().getEnvironment();
 			
@@ -112,7 +117,7 @@ public class RunnerCompass extends BukkitRunnable {
 			Utils.removeCompass(plugin, player);
 		}
     	
-        if (!speedrunners.hasEntry(player.getName()) || playerDeath.getScore() > 0 || plugin.getConfig().getString("options.runnerCompass").equals("false")) {
+        if (aliveRunners.indexOf(player.getName()) == -1 || plugin.getConfig().getString("options.runnerCompass").equals("false")) {
         	this.cancel();
 			Utils.removeCompass(plugin, player);
         }

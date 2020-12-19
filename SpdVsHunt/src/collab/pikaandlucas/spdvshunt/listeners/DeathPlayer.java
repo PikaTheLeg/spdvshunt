@@ -1,6 +1,7 @@
 package collab.pikaandlucas.spdvshunt.listeners;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Bukkit;
@@ -44,24 +45,15 @@ public class DeathPlayer implements Listener {
 	
 	@EventHandler
 	public void onDeath(PlayerDeathEvent e) {
+		
 		// Check if it's speedrunner.
 		if (speedrunners.hasEntry(e.getEntity().getName())) {
 			// Ensures their scoreboard is set. Prevents bug where a speedrunner died but objective is not updated.
 			deaths.getScore(e.getEntity().getName()).setScore(1); 
-			
-			String[] speedrunnersArray = new String[speedrunners.getSize()];
-			speedrunners.getEntries().toArray(speedrunnersArray);
-			
-			int survivingRunners = 0;
-			
-			for (String speedrunnerName : speedrunnersArray) {
-				if (deaths.getScore(speedrunnerName).getScore() == 0) {
-					survivingRunners++;
-				}
-			}
-			
-			if (survivingRunners > 0) {
-				Bukkit.broadcastMessage(Utils.chat(plugin.getConfig().getString("spdVsHunt.runnerDied").replace("<player>", e.getEntity().getName()).replace("<number>", survivingRunners+"")));
+
+			ArrayList<String> aliveRunners = Utils.aliveRunners(board);
+			if (aliveRunners.size() > 0) {
+				Bukkit.broadcastMessage(Utils.chat(plugin.getConfig().getString("spdVsHunt.runnerDied").replace("<player>", e.getEntity().getName()).replace("<number>", aliveRunners.size()+"")));
 			} else {
 				// Hunters Win!
 				Bukkit.broadcastMessage(Utils.chat(plugin.getConfig().getString("spdVsHunt.runnersLost").replace("<player>", e.getEntity().getName())));

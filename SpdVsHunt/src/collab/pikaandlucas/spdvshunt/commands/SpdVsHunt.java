@@ -120,14 +120,21 @@ public class SpdVsHunt implements CommandExecutor {
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		/* Usage:
-		 * args[0]: "join", "options", "reset"
+		 * args[0]: "join", "options", "clock", "reset", "revive", "help"
 		 * 
 		 * Joining Team:
 		 * args[1]: "speedrunner", "hunter", "none"
 		 * args[2]: <playername> - optional if player is a sender.
 		 * 
+		 * Clock:
+		 * args[1]: "start", "pause", "resume", "stop"
+		 * args[2]: "stopwatch", "timer"
+		 * 
 		 * Options:
-		 * args[1]: "hunterBarInfo", "runnerCompass"
+		 * args[1]: "hunterBarInfo", "runnerCompass", "timerBorder", "autoTracking"
+		 * 
+		 * Revive:
+		 * args[1]: <playername>
 		 * 
 		 * Reset:
 		 * Resets the state by clearing all teams and objectives.
@@ -250,6 +257,10 @@ public class SpdVsHunt implements CommandExecutor {
 				Bukkit.broadcastMessage(Utils.chat(plugin.getConfig().getString("spdVsHunt.reset")));
 				return true;
 				
+			} else if (args[0].equals("clock")) {
+				sender.sendMessage(Utils.aliveRunners(board).size()+"");
+			} else if (args[0].equals("revive")) {
+				sender.sendMessage("Revive!");
 			} else if (args[0].equals("help")) { 
 				// Check if there are any specific command the user is looking for help on.
 				if (args.length > 1) {

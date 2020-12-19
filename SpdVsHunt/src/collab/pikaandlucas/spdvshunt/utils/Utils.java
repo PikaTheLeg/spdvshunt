@@ -1,5 +1,7 @@
 package collab.pikaandlucas.spdvshunt.utils;
 
+import java.util.ArrayList;
+
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -9,6 +11,9 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.CompassMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
+import org.bukkit.scoreboard.Objective;
+import org.bukkit.scoreboard.Scoreboard;
+import org.bukkit.scoreboard.Team;
 
 import collab.pikaandlucas.spdvshunt.Main;
 
@@ -66,5 +71,24 @@ public class Utils {
 	public static NamespacedKey key(Main plugin, String key) {
         return new NamespacedKey(plugin, key);
     }
+	
+	public static ArrayList<String> aliveRunners(Scoreboard board) {
+		// Generates a list of live speedrunners from the speedrunners team.
+		ArrayList<String> list = new ArrayList<String>();
+
+		Team speedrunners = board.getTeam("svhSpeedrunners");
+		Objective deaths = board.getObjective("deaths");
+		
+		String[] speedrunnersArray = new String[speedrunners.getSize()];
+		speedrunners.getEntries().toArray(speedrunnersArray);
+		
+		for (String speedrunnerName : speedrunnersArray) {
+			if (deaths.getScore(speedrunnerName).getScore() == 0) {
+				list.add(speedrunnerName);
+			}
+		}
+		
+		return list;
+	}
 	
 }
