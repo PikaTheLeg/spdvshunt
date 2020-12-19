@@ -17,13 +17,22 @@ public class Main extends JavaPlugin {
 	WeakReference<Scoreboard> boardRef;
 	
 	public void setScoreboard() {
+		// create new scoreboard
 		Scoreboard board = Bukkit.getScoreboardManager().getNewScoreboard();
+		
+		// create hunters and speedrunner teams
 		board.registerNewTeam("svhSpeedrunners");
 		board.registerNewTeam("svhHunters");
+		
+		// create objectives to track position in the dimensions
 		board.registerNewObjective("overworldCoords", "dummy", "Overworld Coords");
 		board.registerNewObjective("netherCoords", "dummy", "Nether Coords");
 		board.registerNewObjective("endCoords", "dummy", "End Coords");
+		
+		// create objective to track death counts
 		board.registerNewObjective("deaths", "deathCount", "Deaths");
+		
+		// create objective to 
 		board.registerNewObjective("compassSelector", "dummy", "Selector");
 		
 		boardRef = new WeakReference<>(board); 

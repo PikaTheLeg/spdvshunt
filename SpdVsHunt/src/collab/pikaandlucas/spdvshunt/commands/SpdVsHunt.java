@@ -44,6 +44,8 @@ public class SpdVsHunt implements CommandExecutor {
 		deaths = board.getObjective("deaths");
 		compassSelector = board.getObjective("compassSelector");
 
+		// what's the point of a config if u immediatly overwrite the config
+		// TODO check if config file exists if config file does not exist set defaults
 		plugin.getConfig().set("options.hunterBar", "false");
 		plugin.getConfig().set("options.runnerCompass", "true");
 		plugin.saveConfig();
@@ -52,53 +54,102 @@ public class SpdVsHunt implements CommandExecutor {
 		plugin.getCommand("spdVsHunt").setTabCompleter(new SVHTabComplete());
 	}
 	
+	// Resets the game entirely
 	public void resetSVH() {
-		// Resets the game entirely
+		// for each entry in scoreboard
 		for (String entry : board.getEntries()) {
+			// reset to default score
 			board.resetScores(entry);
 		}
+		
+		// for each team present in the scoreboard
 		for (Team team : board.getTeams()) {
+			// for each player in the team
 			for (String entry : team.getEntries()) {
+				// remove player from the team
 				team.removeEntry(entry);
 			}
 		}
+		
+		// initalise player array
 		Player[] onlineArray = new Player[Bukkit.getOnlinePlayers().size()];
+		// recreate online player array
 		Bukkit.getOnlinePlayers().toArray(onlineArray);
 		
+		// for each player in the online array
 		for (Player player : onlineArray) {
+			// remove tracker compass
 			Utils.removeCompass(plugin, player);
 		}
 	}
 	
+	// allows player to join hunter or speedrunner team
 	public boolean joinTeam(CommandSender sender, Player player, String teamString) {
+		
+		// switch on team string supplied
 		switch (teamString.toLowerCase()) {
+		// if player is to join the speedrunner team
 			case "speedrunner":
+				// if the player is not allready in the speedrunner team
 				if (!speedrunners.hasEntry(player.getName())) {
+					// reset death count
 					deaths.getScore(player.getName()).setScore(0);
+					// add player to team
 					speedrunners.addEntry(player.getName());
+					
+					// remove player from hunter team ???
+					// TODO is this necessary?
 					hunters.removeEntry(player.getName());
+					
+					// tell all players on server that player has joined the speedrunner team
 					Bukkit.broadcastMessage(Utils.chat(plugin.getConfig().getString("spdVsHunt.joinSpd").replace("<player>", player.getName())));
 					
+					// if config is set so that speedrunners are allowed to have a tracker compass for other speedrunners
 					if (plugin.getConfig().getString("options.runnerCompass").equals("true")) {
+						// create a new runner compass
 						new RunnerCompass(this.plugin, player, boardRef).runTaskTimer(this.plugin, 10, 10);
+						
+						// what is this?
 						compassSelector.getScore(player.getName()).setScore(0);
-					} else {
+					}
+					// if the config is set to false
+					else {
+						// ensure the player does not have a tracker compass
 						Utils.removeCompass(plugin, player);
 					}
-				} else {
+				} 
+				// if the player is already apart of the speedrunner team
+				else {
+					// send a message to sender explaining that specified player is already a speedrunner
 					sender.sendMessage(Utils.chat(plugin.getConfig().getString("spdVsHunt.alreadySpd").replace("<player>", player.getName())));
 				}
+				
+				// successful command completion
 				return true;
+			
+			// if player is to join the hunter team
 			case "hunter":
+				// if the player is not already a hunter
 				if (!hunters.hasEntry(player.getName())) {
+					// reset death count
 					deaths.getScore(player.getName()).setScore(0);
+					// add player to hunter team
 					hunters.addEntry(player.getName());
+					// ensure player is not in the speedrunner team
 					speedrunners.removeEntry(player.getName());
+					
+					// create a new tracker compass
 					new HunterCompass(this.plugin, player, boardRef).runTaskTimer(this.plugin, 10, 10);
+					
+					// idk what this is
 					compassSelector.getScore(player.getName()).setScore(0);
 					
+					// broadcast to all players that player has joined the hunter team
 					Bukkit.broadcastMessage(Utils.chat(plugin.getConfig().getString("spdVsHunt.joinHunt").replace("<player>", player.getName())));					
-				} else {
+				}
+				// if player is already apart of the hunter team
+				else {
+					// inform sender that player is already a hunter
 					sender.sendMessage(Utils.chat(plugin.getConfig().getString("spdVsHunt.alreadyHunt").replace("<player>", player.getName())));
 				}
 				return true;
