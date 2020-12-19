@@ -332,6 +332,7 @@ public class SpdVsHunt implements CommandExecutor {
 						if (deaths.getScore(player.getName()).getScore() >= 1) {
 							// Revive player. Player rejoins.
 							deaths.getScore(player.getName()).setScore(0);
+							new RunnerCompass(this.plugin, player, boardRef).runTaskTimer(this.plugin, 10, 10);
 							Bukkit.broadcastMessage(Utils.chat(plugin.getConfig().getString("spdVsHunt.revive").replace("<player>", player.getName())));
 						} else {
 							// Error as player is still alive.

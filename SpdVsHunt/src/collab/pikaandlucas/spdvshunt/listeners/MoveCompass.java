@@ -55,7 +55,7 @@ public class MoveCompass implements Listener {
 	public void onSwap(PlayerSwapHandItemsEvent e) {
 		// If player clicked is a hunter
 		if (hunters.hasEntry(e.getPlayer().getName()) || (speedrunners.hasEntry(e.getPlayer().getName()) && speedrunners.getSize() > 1 && plugin.getConfig().getString("options.runnerCompass").equals("true"))) {
-			if (e.getOffHandItem() != null) {
+			if (e.getOffHandItem() != null && e.getOffHandItem().getType().equals(Material.AIR)) {
 				if (e.getOffHandItem().getItemMeta().getPersistentDataContainer().has(Utils.key(plugin, "tracker"), PersistentDataType.INTEGER)) {
 					e.setCancelled(true);
 				}
