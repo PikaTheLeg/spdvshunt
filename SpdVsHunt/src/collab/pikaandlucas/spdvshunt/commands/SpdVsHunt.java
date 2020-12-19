@@ -246,6 +246,10 @@ public class SpdVsHunt implements CommandExecutor {
 						return true;
 
 					}
+				} else if (args[1].toLowerCase().equals("autoTracking")) {
+					sender.sendMessage("Settings autoTracking!");
+				} else if (args[1].toLowerCase().equals("timerBorder")) {
+					sender.sendMessage("Settings timerBorder!");
 				} else {
 					// Did not state any options. Return false.
 					return false;
@@ -258,9 +262,38 @@ public class SpdVsHunt implements CommandExecutor {
 				return true;
 				
 			} else if (args[0].equals("clock")) {
-				sender.sendMessage(Utils.aliveRunners(board).size()+"");
+				sender.sendMessage("Clock!");
 			} else if (args[0].equals("revive")) {
-				sender.sendMessage("Revive!");
+				// Check if the player specified a playername. Otherwise they are likely specifying themselves.
+				Player player;
+				if (args.length > 1) {
+					player = Bukkit.getPlayerExact(args[1]);
+				} else if (sender instanceof Player) {
+					player = (Player) sender;
+				} else {
+					sender.sendMessage(Utils.chat(plugin.getConfig().getString("consoleErrorMessage")));
+					return false;
+				}
+				
+				// Check if player is alive and in team speedrunners.
+				if (player != null) {
+					if (speedrunners.hasEntry(player.getName())) {
+						if (deaths.getScore(player.getName()).getScore() >= 1) {
+							// Revive player. Player rejoins.
+							deaths.getScore(player.getName()).setScore(0);
+							Bukkit.broadcastMessage(Utils.chat(plugin.getConfig().getString("spdVsHunt.revive").replace("<player>", player.getName())));
+						} else {
+							// Error as player is still alive.
+							sender.sendMessage(Utils.chat(plugin.getConfig().getString("spdVsHunt.reviveFalseDeath").replace("<player>", player.getName())));
+						}
+					} else {
+						// Error that player is not in speedrunners.
+						sender.sendMessage(Utils.chat(plugin.getConfig().getString("spdVsHunt.reviveFalseTeam").replace("<player>", player.getName())));
+					}
+				} else {
+					sender.sendMessage(Utils.chat(plugin.getConfig().getString("spdVsHunt.reviveFalsePlayer").replace("<player>", args[1])));
+				}
+				return true;
 			} else if (args[0].equals("help")) { 
 				// Check if there are any specific command the user is looking for help on.
 				if (args.length > 1) {
@@ -273,6 +306,12 @@ public class SpdVsHunt implements CommandExecutor {
 							return true;
 						case "reset":
 							sender.sendMessage(Utils.chat(plugin.getConfig().getString("help.reset").replace("\\n", "\n")));
+							return true;
+						case "revive":
+							sender.sendMessage("Help Revive!");
+							return true;
+						case "clock":
+							sender.sendMessage("Help Clock!");
 							return true;
 						default:
 							// Use a break, since the command is not found in the "dictionary", show default command.

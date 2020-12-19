@@ -1,5 +1,5 @@
 # General Messages
-consoleErrorMessage: '&8[&c*&8] &cAs Console, you must specify a playername when assigning teams!'
+consoleErrorMessage: '&8[&c*&8] &cAs Console, you must specify a playername!'
 noPerm: '&8[&c*&8] &cYou do not have permission to execute this command!'
 playerNotFound: '&8[&c*&8] &cUnable to find an online player by the username "<player>".'
 teamNotFound: '&8[&c*&8] &cUnable to find a team by the name "<team>".'
@@ -22,6 +22,10 @@ spdVsHunt:
   runnerCompassTrue: '&8[&a*&8] &aSpeedrunners &7now have a tracker compass which tracks other speedrunners (if there are any).'
   runnerCompassFalse: '&8[&a*&8] &aSpeedrunners &7no longer have a tracker compass to show other speedrunners.'
   reset: '&8[&a*&8] &aSpeedrunner Vs Hunter has been successfully reset.'
+  revive: '&8[&a*&8] &bSpeedrunner &a<player> &7has revived.'
+  reviveFalseDeath: '&8[&c*&8] &bSpeedrunner &a<player> &7is already alive.'
+  reviveFalseTeam: '&8[&c*&8] &7Could not find &a<player> &7in Team &bSpeedrunners&7.'
+  reviveFalsePlayer: '&8[&c*&8] &7Could not find an online player named "&a<player>".'
 
 trackingBar:
   sameWorld: '&eTracking: &a&l<player> &7| &bIn <world> &7| &e Distance: &l <distance> m'

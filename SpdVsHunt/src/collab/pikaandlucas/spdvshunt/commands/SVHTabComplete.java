@@ -13,6 +13,9 @@ public class SVHTabComplete implements TabCompleter {
 
 	@Override
 	public List<String> onTabComplete(CommandSender sender, Command cmd, String alias, String[] args) {
+		Player[] onlineArray = new Player[Bukkit.getOnlinePlayers().size()];
+		Bukkit.getOnlinePlayers().toArray(onlineArray);
+		
 		if (cmd.getName().equalsIgnoreCase("spdVsHunt")) {
 			List<String> list = new ArrayList<String>();
 			
@@ -20,6 +23,8 @@ public class SVHTabComplete implements TabCompleter {
 				list.add("join");
 				list.add("settings");
 				list.add("reset");
+				list.add("revive");
+				list.add("clock");
 				list.add("help");
 			} else if (args.length == 2) {
 				switch (args[0].toLowerCase()) {
@@ -31,23 +36,52 @@ public class SVHTabComplete implements TabCompleter {
 					case "settings":
 						list.add("hunterBarInfo");
 						list.add("runnerCompass");
+						list.add("autoTracking");
+						list.add("timerBorder");
 						break;
 					case "help":
 						list.add("join");
 						list.add("settings");
+						list.add("revive");
+						list.add("clock");
 						list.add("reset");
 						break;
+					case "revive":
+						for (Player player : onlineArray) {
+							list.add(player.getName());
+						}
+						break;
+					case "clock":
+						list.add("start");
+						list.add("pause");
+						list.add("resume");
+						list.add("stop");
 					default:
 						break;
 				}
 			} else if (args.length == 3) {
-				if (args[0].toLowerCase().equals("join")) {
-					Player[] onlineArray = new Player[Bukkit.getOnlinePlayers().size()];
-					Bukkit.getOnlinePlayers().toArray(onlineArray);
-					
-					for (Player player : onlineArray) {
-						list.add(player.getName());
-					}
+				switch (args[0].toLowerCase()) {
+					case "join":
+						for (Player player : onlineArray) {
+							list.add(player.getName());
+						}
+						break;
+					case "settings":
+						switch (args[1].toLowerCase()) {
+							case "timerBorder":
+								list.add("startRadius");
+								list.add("endRadius");
+								list.add("toggle");
+								break;
+							default:
+								break;
+						}
+					case "clock":
+						list.add("stopwatch");
+						list.add("timer");
+						break;
+					default:
+						break;
 				}
 			}
 			return list;
