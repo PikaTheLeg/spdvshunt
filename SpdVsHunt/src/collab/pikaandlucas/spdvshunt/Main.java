@@ -1,4 +1,4 @@
-package me.pikalegend.spdvshunt;
+package collab.pikaandlucas.spdvshunt;
 
 import java.lang.ref.WeakReference;
 
@@ -6,12 +6,12 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scoreboard.Scoreboard;
 
-import me.pikalegend.spdvshunt.commands.SpdVsHunt;
-import me.pikalegend.spdvshunt.listeners.ClickCompass;
-import me.pikalegend.spdvshunt.listeners.DeathPlayer;
-import me.pikalegend.spdvshunt.listeners.DisconnectPlayer;
-import me.pikalegend.spdvshunt.listeners.MoveCompass;
-import me.pikalegend.spdvshunt.listeners.MovePlayer;
+import collab.pikaandlucas.spdvshunt.commands.SpdVsHunt;
+import collab.pikaandlucas.spdvshunt.listeners.ClickCompass;
+import collab.pikaandlucas.spdvshunt.listeners.DeathPlayer;
+import collab.pikaandlucas.spdvshunt.listeners.DisconnectPlayer;
+import collab.pikaandlucas.spdvshunt.listeners.MoveCompass;
+import collab.pikaandlucas.spdvshunt.listeners.MovePlayer;
 
 public class Main extends JavaPlugin {
 	WeakReference<Scoreboard> boardRef;

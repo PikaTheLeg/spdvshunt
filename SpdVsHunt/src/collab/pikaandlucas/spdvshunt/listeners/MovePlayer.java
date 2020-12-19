@@ -1,4 +1,4 @@
-package me.pikalegend.spdvshunt.listeners;
+package collab.pikaandlucas.spdvshunt.listeners;
 
 import java.lang.ref.WeakReference;
 
@@ -14,7 +14,7 @@ import org.bukkit.scoreboard.Score;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
-import me.pikalegend.spdvshunt.Main;
+import collab.pikaandlucas.spdvshunt.Main;
 
 public class MovePlayer implements Listener {
 	Scoreboard board;

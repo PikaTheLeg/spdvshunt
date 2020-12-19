@@ -1,9 +1,8 @@
-package me.pikalegend.spdvshunt.listeners;
+package collab.pikaandlucas.spdvshunt.listeners;
 
 import java.lang.ref.WeakReference;
 
 import org.bukkit.Bukkit;
-import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -15,8 +14,8 @@ import org.bukkit.scoreboard.Score;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
-import me.pikalegend.spdvshunt.Main;
-import me.pikalegend.spdvshunt.utils.Utils;
+import collab.pikaandlucas.spdvshunt.Main;
+import collab.pikaandlucas.spdvshunt.utils.Utils;
 
 public class ClickCompass implements Listener {
 	
@@ -47,10 +46,6 @@ public class ClickCompass implements Listener {
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}
 	
-	private NamespacedKey key(String key) {
-        return new NamespacedKey(plugin, key);
-    }
-	
 	@EventHandler
 	public void onClick(PlayerInteractEvent e) {
 		if (hunters.hasEntry(e.getPlayer().getName())) {
@@ -60,7 +55,7 @@ public class ClickCompass implements Listener {
 			// Check the player has an item.
 			if (e.getItem() != null) {
 				// Check item to be the compass.
-				if (e.getItem().getItemMeta().getPersistentDataContainer().has(key("tracker"), PersistentDataType.INTEGER) && (e.getAction() != null && (e.getAction().equals(Action.RIGHT_CLICK_AIR) || e.getAction().equals(Action.RIGHT_CLICK_BLOCK)))) {
+				if (e.getItem().getItemMeta().getPersistentDataContainer().has(Utils.key(plugin,"tracker"), PersistentDataType.INTEGER) && (e.getAction() != null && (e.getAction().equals(Action.RIGHT_CLICK_AIR) || e.getAction().equals(Action.RIGHT_CLICK_BLOCK)))) {
 					// Then player is clicking with the compass.
 					playerSelect = compassSelector.getScore(player.getName());
 
@@ -87,7 +82,7 @@ public class ClickCompass implements Listener {
 			
 			if (e.getItem() != null) {
 				// Check item to be the compass.
-				if (e.getItem().getItemMeta().getPersistentDataContainer().has(key("tracker"), PersistentDataType.INTEGER) && (e.getAction() != null && (e.getAction().equals(Action.RIGHT_CLICK_AIR) || e.getAction().equals(Action.RIGHT_CLICK_BLOCK)))) {
+				if (e.getItem().getItemMeta().getPersistentDataContainer().has(Utils.key(plugin, "tracker"), PersistentDataType.INTEGER) && (e.getAction() != null && (e.getAction().equals(Action.RIGHT_CLICK_AIR) || e.getAction().equals(Action.RIGHT_CLICK_BLOCK)))) {
 					// Player is right clicking the tracking compass.
 					playerSelect = compassSelector.getScore(player.getName());
 

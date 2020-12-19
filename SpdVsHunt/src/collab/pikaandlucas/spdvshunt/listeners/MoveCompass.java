@@ -1,10 +1,9 @@
-package me.pikalegend.spdvshunt.listeners;
+package collab.pikaandlucas.spdvshunt.listeners;
 
 import java.lang.ref.WeakReference;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.ItemFrame;
 import org.bukkit.entity.Player;
@@ -18,7 +17,8 @@ import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
-import me.pikalegend.spdvshunt.Main;
+import collab.pikaandlucas.spdvshunt.Main;
+import collab.pikaandlucas.spdvshunt.utils.Utils;
 
 // Click Compass prevents hunters from moving the compass / putting items on the eigth slot.
 public class MoveCompass implements Listener {
@@ -37,10 +37,6 @@ public class MoveCompass implements Listener {
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}
 	
-	private NamespacedKey key(String key) {
-        return new NamespacedKey(plugin, key);
-    }
-	
 	@EventHandler
 	public void onClick(InventoryClickEvent e) {
 		// If player clicked is a hunter
@@ -48,7 +44,7 @@ public class MoveCompass implements Listener {
 			if (e.getHotbarButton() == 8) {
 				e.setCancelled(true);
 			} else if (e.getSlot() == 8 && e.getClickedInventory().getItem(8) != null) {
-				if (e.getClickedInventory().getItem(8).getItemMeta().getPersistentDataContainer().has(key("tracker"), PersistentDataType.INTEGER)) {
+				if (e.getClickedInventory().getItem(8).getItemMeta().getPersistentDataContainer().has(Utils.key(plugin, "tracker"), PersistentDataType.INTEGER)) {
 					e.setCancelled(true);
 				}
 			} 
@@ -60,7 +56,7 @@ public class MoveCompass implements Listener {
 		// If player clicked is a hunter
 		if (hunters.hasEntry(e.getPlayer().getName()) || (speedrunners.hasEntry(e.getPlayer().getName()) && speedrunners.getSize() > 1 && plugin.getConfig().getString("options.runnerCompass").equals("true"))) {
 			if (e.getOffHandItem() != null) {
-				if (e.getOffHandItem().getItemMeta().getPersistentDataContainer().has(key("tracker"), PersistentDataType.INTEGER)) {
+				if (e.getOffHandItem().getItemMeta().getPersistentDataContainer().has(Utils.key(plugin, "tracker"), PersistentDataType.INTEGER)) {
 					e.setCancelled(true);
 				}
 			}
@@ -71,7 +67,7 @@ public class MoveCompass implements Listener {
 	public void onDrop(PlayerDropItemEvent e) {
 		// If player clicked is a hunter
 		if (hunters.hasEntry(e.getPlayer().getName()) || (speedrunners.hasEntry(e.getPlayer().getName()) && speedrunners.getSize() > 1 && plugin.getConfig().getString("options.runnerCompass").equals("true"))) {
-			if (e.getItemDrop().getItemStack().getItemMeta().getPersistentDataContainer().has(key("tracker"), PersistentDataType.INTEGER)) {
+			if (e.getItemDrop().getItemStack().getItemMeta().getPersistentDataContainer().has(Utils.key(plugin,"tracker"), PersistentDataType.INTEGER)) {
 				e.setCancelled(true);
 			}
 		}
@@ -84,7 +80,7 @@ public class MoveCompass implements Listener {
 			Entity itemFrame = e.getRightClicked();
 			if(itemFrame instanceof ItemFrame){
 				if (!player.getInventory().getItemInMainHand().getType().equals(Material.AIR)) {
-					if (player.getInventory().getItemInMainHand().getItemMeta().getPersistentDataContainer().has(key("tracker"), PersistentDataType.INTEGER)) {
+					if (player.getInventory().getItemInMainHand().getItemMeta().getPersistentDataContainer().has(Utils.key(plugin, "tracker"), PersistentDataType.INTEGER)) {
 						e.setCancelled(true);
 					}
 				}

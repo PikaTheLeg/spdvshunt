@@ -1,10 +1,10 @@
-package me.pikalegend.spdvshunt.commands;
+package collab.pikaandlucas.spdvshunt.commands;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
-import me.pikalegend.spdvshunt.Main;
+import collab.pikaandlucas.spdvshunt.Main;
 
 
 public class HelloCommand implements CommandExecutor {

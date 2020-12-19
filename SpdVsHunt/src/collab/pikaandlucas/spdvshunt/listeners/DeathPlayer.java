@@ -1,11 +1,9 @@
-package me.pikalegend.spdvshunt.listeners;
+package collab.pikaandlucas.spdvshunt.listeners;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.entity.EnderDragon;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -14,17 +12,14 @@ import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.CompassMeta;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
-import me.pikalegend.spdvshunt.Main;
-import me.pikalegend.spdvshunt.runnables.HunterCompass;
-import me.pikalegend.spdvshunt.utils.Utils;
-import net.md_5.bungee.api.ChatColor;
+import collab.pikaandlucas.spdvshunt.Main;
+import collab.pikaandlucas.spdvshunt.runnables.HunterCompass;
+import collab.pikaandlucas.spdvshunt.utils.Utils;
 
 public class DeathPlayer implements Listener {
 	WeakReference<Scoreboard> boardRef;
@@ -45,24 +40,6 @@ public class DeathPlayer implements Listener {
 		deaths = board.getObjective("deaths");
 		
 		Bukkit.getPluginManager().registerEvents(this, plugin);
-	}
-	
-	private NamespacedKey key(String key) {
-        return new NamespacedKey(plugin, key);
-    }
-	
-	public void giveCompass(Player hunter) {
-		ItemStack compass = new ItemStack(Material.COMPASS);
-		ItemMeta meta = compass.getItemMeta();
-		
-		meta.setDisplayName(ChatColor.GOLD + "Tracker Compass");
-		meta.getPersistentDataContainer().set(key("tracker"), PersistentDataType.INTEGER, 1);
-		
-		CompassMeta trackerCompassMeta = (CompassMeta) meta;
-		
-		compass.setItemMeta(trackerCompassMeta);
-		
-		hunter.getInventory().setItem(8, compass);
 	}
 	
 	@EventHandler
@@ -93,7 +70,7 @@ public class DeathPlayer implements Listener {
 			// Check for compass drop, and deletes it.
 			List<ItemStack> drops = e.getDrops();
 			for (ItemStack drop : drops) {
-				if (drop.getItemMeta().getPersistentDataContainer().has(key("tracker"), PersistentDataType.INTEGER)) {
+				if (drop.getItemMeta().getPersistentDataContainer().has(Utils.key(plugin, "tracker"), PersistentDataType.INTEGER)) {
 					drop.setAmount(0);
 				}
 			}
@@ -101,7 +78,7 @@ public class DeathPlayer implements Listener {
 		} else if (hunters.hasEntry(e.getEntity().getName())) {
 			List<ItemStack> drops = e.getDrops();
 			for (ItemStack drop : drops) {
-				if (drop.getItemMeta().getPersistentDataContainer().has(key("tracker"), PersistentDataType.INTEGER)) {
+				if (drop.getItemMeta().getPersistentDataContainer().has(Utils.key(plugin, "tracker"), PersistentDataType.INTEGER)) {
 					drop.setAmount(0);
 				}
 			}
@@ -114,7 +91,6 @@ public class DeathPlayer implements Listener {
 		if (hunters.hasEntry(e.getPlayer().getName())) {
 			Player player = e.getPlayer();
 			// Reboot compass.
-			giveCompass(player);
 			new HunterCompass(this.plugin, player, boardRef).runTaskTimer(this.plugin, 10, 10);
 		}
 	}

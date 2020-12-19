@@ -1,27 +1,20 @@
-package me.pikalegend.spdvshunt.commands;
+package collab.pikaandlucas.spdvshunt.commands;
 
 import java.lang.ref.WeakReference;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.CompassMeta;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
-import me.pikalegend.spdvshunt.Main;
-import me.pikalegend.spdvshunt.runnables.HunterCompass;
-import me.pikalegend.spdvshunt.runnables.RunnerCompass;
-import me.pikalegend.spdvshunt.utils.Utils;
-import net.md_5.bungee.api.ChatColor;
+import collab.pikaandlucas.spdvshunt.Main;
+import collab.pikaandlucas.spdvshunt.runnables.HunterCompass;
+import collab.pikaandlucas.spdvshunt.runnables.RunnerCompass;
+import collab.pikaandlucas.spdvshunt.utils.Utils;
 
 
 public class SpdVsHunt implements CommandExecutor {
@@ -59,34 +52,6 @@ public class SpdVsHunt implements CommandExecutor {
 		plugin.getCommand("spdVsHunt").setTabCompleter(new SVHTabComplete());
 	}
 	
-	// Give Tracker Compass
-	public void giveCompass(Player hunter) {
-		ItemStack compass = new ItemStack(Material.COMPASS);
-		ItemMeta meta = compass.getItemMeta();
-		
-		meta.setDisplayName(ChatColor.GOLD + "Tracker Compass");
-		meta.getPersistentDataContainer().set(key("tracker"), PersistentDataType.INTEGER, 1);
-		
-		CompassMeta trackerCompassMeta = (CompassMeta) meta;
-		
-		compass.setItemMeta(trackerCompassMeta);
-		
-		hunter.getInventory().setItem(8, compass);
-	}
-	
-	// Removes Tracker Compass from Inventory.
-	public void removeCompass(Player player) {		
-		ItemStack[] inventory = player.getInventory().getContents();
-		for (ItemStack item : inventory) {
-			if (item != null) {
-				if (item.getItemMeta().getPersistentDataContainer().has(key("tracker"), PersistentDataType.INTEGER)) {
-					player.getInventory().remove(item);
-					return;
-				}
-			}
-		}
-	}
-	
 	public void resetSVH() {
 		// Resets the game entirely
 		for (String entry : board.getEntries()) {
@@ -101,7 +66,7 @@ public class SpdVsHunt implements CommandExecutor {
 		Bukkit.getOnlinePlayers().toArray(onlineArray);
 		
 		for (Player player : onlineArray) {
-			removeCompass(player);
+			Utils.removeCompass(plugin, player);
 		}
 	}
 	
@@ -118,7 +83,7 @@ public class SpdVsHunt implements CommandExecutor {
 						new RunnerCompass(this.plugin, player, boardRef).runTaskTimer(this.plugin, 10, 10);
 						compassSelector.getScore(player.getName()).setScore(0);
 					} else {
-						removeCompass(player);
+						Utils.removeCompass(plugin, player);
 					}
 				} else {
 					sender.sendMessage(Utils.chat(plugin.getConfig().getString("spdVsHunt.alreadySpd").replace("<player>", player.getName())));
@@ -129,7 +94,6 @@ public class SpdVsHunt implements CommandExecutor {
 					deaths.getScore(player.getName()).setScore(0);
 					hunters.addEntry(player.getName());
 					speedrunners.removeEntry(player.getName());
-					giveCompass(player);
 					new HunterCompass(this.plugin, player, boardRef).runTaskTimer(this.plugin, 10, 10);
 					compassSelector.getScore(player.getName()).setScore(0);
 					
@@ -143,7 +107,7 @@ public class SpdVsHunt implements CommandExecutor {
 					speedrunners.removeEntry(player.getName());
 					hunters.removeEntry(player.getName());
 					Bukkit.broadcastMessage(Utils.chat(plugin.getConfig().getString("spdVsHunt.joinNone").replace("<player>", player.getName())));					
-					removeCompass(player);
+					Utils.removeCompass(plugin, player);
 				} else {
 					sender.sendMessage(Utils.chat(plugin.getConfig().getString("spdVsHunt.alreadyNone").replace("<player>", player.getName())));
 				}
@@ -152,10 +116,6 @@ public class SpdVsHunt implements CommandExecutor {
 				return false;
 		}
 	}
-	
-	private NamespacedKey key(String key) {
-        return new NamespacedKey(plugin, key);
-    }
 	
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
@@ -271,7 +231,7 @@ public class SpdVsHunt implements CommandExecutor {
 							// Remove Compass from everyone
 							for (String playername: speedrunners.getEntries()) {
 								Player player = Bukkit.getPlayer(playername);
-								removeCompass(player);
+								Utils.removeCompass(plugin, player);
 							}
 							
 						}

@@ -1,8 +1,8 @@
 name: SpdVsHunt
 version: 1.1
 api-version: 1.16
-author: PikaLegend_
-main: me.pikalegend.spdvshunt.Main
+author: PikaLegend_ and Lucas
+main: collab.pikaandlucas.spdvshunt.Main
 description: A plugin for running Speedrunner Vs Hunter games, as inspired by Minecraft Manhunt by Dream. Do /svh help for more commands.
 
 commands:

@@ -1,4 +1,4 @@
-package me.pikalegend.spdvshunt.commands;
+package collab.pikaandlucas.spdvshunt.commands;
 
 import java.util.ArrayList;
 import java.util.List;
