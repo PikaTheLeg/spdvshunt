@@ -12,6 +12,7 @@ import collab.pikaandlucas.spdvshunt.listeners.DeathPlayer;
 import collab.pikaandlucas.spdvshunt.listeners.DisconnectPlayer;
 import collab.pikaandlucas.spdvshunt.listeners.MoveCompass;
 import collab.pikaandlucas.spdvshunt.listeners.MovePlayer;
+import collab.pikaandlucas.spdvshunt.listeners.TimerStopListener;
 
 public class Main extends JavaPlugin {
 	WeakReference<Scoreboard> boardRef;
@@ -32,9 +33,10 @@ public class Main extends JavaPlugin {
 		// create objective to track death counts
 		board.registerNewObjective("deaths", "deathCount", "Deaths");
 		
-		// create objective to 
+		// create objective to to hold player index to be tracked
 		board.registerNewObjective("compassSelector", "dummy", "Selector");
 		
+		board.registerNewObjective("timer", "dummy", "Timer");
 		boardRef = new WeakReference<>(board); 
 	}
 	
@@ -50,5 +52,6 @@ public class Main extends JavaPlugin {
 		new ClickCompass(this, boardRef);
 		new DeathPlayer(this, boardRef);
 		new DisconnectPlayer(this, boardRef);
+		Bukkit.getServer().getPluginManager().registerEvents(new TimerStopListener(), this);
 	}
 }

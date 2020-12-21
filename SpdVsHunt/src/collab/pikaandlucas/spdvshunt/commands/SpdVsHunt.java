@@ -14,6 +14,7 @@ import org.bukkit.scoreboard.Team;
 import collab.pikaandlucas.spdvshunt.Main;
 import collab.pikaandlucas.spdvshunt.runnables.HunterCompass;
 import collab.pikaandlucas.spdvshunt.runnables.RunnerCompass;
+import collab.pikaandlucas.spdvshunt.runnables.TimerRunable;
 import collab.pikaandlucas.spdvshunt.utils.Utils;
 
 
@@ -27,6 +28,7 @@ public class SpdVsHunt implements CommandExecutor {
 	Objective endCoords;
 	Objective deaths;
 	Objective compassSelector;
+	Objective timer;
 	
 	private Main plugin;
 	
@@ -43,6 +45,7 @@ public class SpdVsHunt implements CommandExecutor {
 		endCoords = board.getObjective("endCoords");
 		deaths = board.getObjective("deaths");
 		compassSelector = board.getObjective("compassSelector");
+		timer = board.getObjective("timer");
 
 		// what's the point of a config if u immediatly overwrite the config
 		// TODO check if config file exists if config file does not exist set defaults
@@ -109,7 +112,7 @@ public class SpdVsHunt implements CommandExecutor {
 						// create a new runner compass
 						new RunnerCompass(this.plugin, player, boardRef).runTaskTimer(this.plugin, 10, 10);
 						
-						// what is this?
+						// set the default tracker to the speedrunner in 0th index
 						compassSelector.getScore(player.getName()).setScore(0);
 					}
 					// if the config is set to false
@@ -141,7 +144,7 @@ public class SpdVsHunt implements CommandExecutor {
 					// create a new tracker compass
 					new HunterCompass(this.plugin, player, boardRef).runTaskTimer(this.plugin, 10, 10);
 					
-					// idk what this is
+					// set the default tracker to the speedrunner in 0th index
 					compassSelector.getScore(player.getName()).setScore(0);
 					
 					// broadcast to all players that player has joined the hunter team
@@ -152,17 +155,29 @@ public class SpdVsHunt implements CommandExecutor {
 					// inform sender that player is already a hunter
 					sender.sendMessage(Utils.chat(plugin.getConfig().getString("spdVsHunt.alreadyHunt").replace("<player>", player.getName())));
 				}
+				// successful command completion
 				return true;
+			// if player is to be removed from the game
 			case "none":
+				// if the player is a part of the hunters or speedrunners
 				if (hunters.hasEntry(player.getName()) || speedrunners.hasEntry(player.getName())) {
+					// ensure the player is not apart of either team
 					speedrunners.removeEntry(player.getName());
 					hunters.removeEntry(player.getName());
-					Bukkit.broadcastMessage(Utils.chat(plugin.getConfig().getString("spdVsHunt.joinNone").replace("<player>", player.getName())));					
+					
+					// broadcast that the player has been removed from the game
+					Bukkit.broadcastMessage(Utils.chat(plugin.getConfig().getString("spdVsHunt.joinNone").replace("<player>", player.getName())));
+					// ensure the player doesn't have a tracker compass
 					Utils.removeCompass(plugin, player);
-				} else {
+				}
+				// if the player is not a part of either the hunters or speedrunners
+				else {
+					// inform sender that this player is not a part of either team
 					sender.sendMessage(Utils.chat(plugin.getConfig().getString("spdVsHunt.alreadyNone").replace("<player>", player.getName())));
 				}
+				// successful command completion
 				return true;
+			// if default case something has gone wrong
 			default:
 				return false;
 		}
@@ -313,7 +328,8 @@ public class SpdVsHunt implements CommandExecutor {
 				return true;
 				
 			} else if (args[0].equals("clock")) {
-				sender.sendMessage("Clock!");
+				timer.getScore("global").setScore(100);
+				new TimerRunable(this.plugin, this.boardRef).runTaskTimer(this.plugin, 10, 1);
 			} else if (args[0].equals("revive")) {
 				// Check if the player specified a playername. Otherwise they are likely specifying themselves.
 				Player player;
