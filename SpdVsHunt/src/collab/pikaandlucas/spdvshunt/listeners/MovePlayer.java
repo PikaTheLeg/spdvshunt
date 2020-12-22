@@ -71,8 +71,6 @@ public class MovePlayer implements Listener {
 			playerX.setScore(x);
 			playerY.setScore(y);
 			playerZ.setScore(z);
-			
-			player.setScoreboard(board);
 		}
 	}
 }

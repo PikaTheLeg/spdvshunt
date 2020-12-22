@@ -63,15 +63,15 @@ public class SidebarScoreboard extends BukkitRunnable {
 			displayScores.add(Utils.chat("&7No Alive Speedrunners"));
 		} else if (runners.size() > 3) {
 			displayScores.add(Utils.chat("&bSpeedrunners:"));
-			displayScores.add(Utils.chat(runners.get(0)));
-			displayScores.add(Utils.chat(runners.get(1)));
-			displayScores.add(Utils.chat(runners.get(2)));
+			displayScores.add(Utils.chat("&a"+runners.get(0)));
+			displayScores.add(Utils.chat("&a"+runners.get(1)));
+			displayScores.add(Utils.chat("&a"+runners.get(2)));
 			int runnersLeft = runners.size() - 3;
 			displayScores.add(Utils.chat("And "+runnersLeft+ " more..."));
 		} else {
 			displayScores.add(Utils.chat("&bSpeedrunners:"));
 			for (String runner : runners) {
-				displayScores.add(Utils.chat(runner));
+				displayScores.add(Utils.chat("&a"+runner));
 			}
 		}
 		
@@ -84,16 +84,16 @@ public class SidebarScoreboard extends BukkitRunnable {
 		if (hunterArray.length == 0) {
 			displayScores.add(Utils.chat("&7No Active Hunters"));
 		} else if (hunterArray.length > 3) {
-			displayScores.add(Utils.chat("&cHunters:"));
-			displayScores.add(Utils.chat(hunterArray[0]));
-			displayScores.add(Utils.chat(hunterArray[1]));
-			displayScores.add(Utils.chat(hunterArray[2]));
+			displayScores.add(Utils.chat("&4Hunters:"));
+			displayScores.add(Utils.chat("&c"+hunterArray[0]));
+			displayScores.add(Utils.chat("&c"+hunterArray[1]));
+			displayScores.add(Utils.chat("&c"+hunterArray[2]));
 			int huntersLeft = hunterArray.length - 3;
 			displayScores.add(Utils.chat("And "+ huntersLeft + " more..."));
 		} else {
-			displayScores.add(Utils.chat("&cHunters:"));
+			displayScores.add(Utils.chat("&4Hunters:"));
 			for (String hunter : hunterArray) {
-				displayScores.add(Utils.chat(hunter));
+				displayScores.add(Utils.chat("&c"+hunter));
 			}
 		}
 		
