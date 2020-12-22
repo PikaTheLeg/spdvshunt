@@ -7,11 +7,13 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
 import collab.pikaandlucas.spdvshunt.Main;
+import collab.pikaandlucas.spdvshunt.events.TimerStop;
 import collab.pikaandlucas.spdvshunt.runnables.HunterCompass;
 import collab.pikaandlucas.spdvshunt.runnables.RunnerCompass;
 import collab.pikaandlucas.spdvshunt.runnables.TimerRunable;
@@ -29,6 +31,7 @@ public class SpdVsHunt implements CommandExecutor {
 	Objective deaths;
 	Objective compassSelector;
 	Objective timer;
+	BukkitTask timerTask;
 	
 	private Main plugin;
 	
@@ -322,8 +325,46 @@ public class SpdVsHunt implements CommandExecutor {
 				return true;
 				
 			} else if (args[0].equals("clock")) {
-				timer.getScore("global").setScore(100);
-				new TimerRunable(this.plugin, this.boardRef).runTaskTimer(this.plugin, 10, 1);
+				if (args[1].equals("start")) {
+					if (args[2].equals("timer")) {
+						if (timer.getScore("global").getScore() > 0) {
+							sender.sendMessage(Utils.chat(plugin.getMessages().getString("spdVsHunt.timerRunning")));
+						}
+						else {
+							if (args.length < 4) {
+								sender.sendMessage(Utils.chat(plugin.getMessages().getString("spdVsHunt.needToSpecifyTime")));
+								return false;
+							}
+							else {
+								int secs = 0;
+								try {
+									secs = Integer.parseInt(args[3]) * 60;
+								}
+								catch (NumberFormatException e) {
+									sender.sendMessage(Utils.chat(plugin.getMessages().getString("spdVsHunt.needToSpecifyTime")));
+									return false;
+								}
+								
+								timer.getScore("global").setScore(secs);
+								timerTask = new TimerRunable(this.plugin, this.boardRef).runTaskTimer(this.plugin, 10, 20);
+							}
+						}
+					}
+					return true;
+				}
+				else if (args[1].equals("stop")) {
+					if (args[2].equals("timer")) {
+						if (timer.getScore("global").getScore() > 0 || timer != null) {
+							Bukkit.getServer().getPluginManager().callEvent(new TimerStop(timer.getScore("global").getScore(), timerTask.getTaskId()));
+							timer.getScore("global").setScore(0);
+						}
+						else {
+							sender.sendMessage(Utils.chat(plugin.getMessages().getString("svhVsHunt.noTimerActive")));
+						}
+					}
+					return true;
+				}
+				
 			} else if (args[0].equals("revive")) {
 				// Check if the player specified a playername. Otherwise they are likely specifying themselves.
 				Player player;

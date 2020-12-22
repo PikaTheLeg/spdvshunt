@@ -68,7 +68,7 @@ public class Main extends JavaPlugin {
 		board.registerNewObjective("compassSelector", "dummy", "Selector");
 		
 		board.registerNewObjective("timer", "dummy", "Timer");
-		boardRef = new WeakReference<>(board); 
+		boardRef = new WeakReference<>(board);
 	}
 	
 	@Override

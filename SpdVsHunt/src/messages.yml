@@ -28,6 +28,9 @@ spdVsHunt:
   reviveFalseDeath: '&8[&c*&8] &bSpeedrunner &a<player> &7is already alive.'
   reviveFalseTeam: '&8[&c*&8] &7Could not find &a<player> &7in Team &bSpeedrunners&7.'
   reviveFalsePlayer: '&8[&c*&8] &7Could not find an online player named "&a<player>".'
+  timerRunning: '&cTimer is already running'
+  needToSpecifyTime: '&cATime in minutes is required to start the timer'
+  noTimerActive: '&cNo timer is currently active'
 
 trackingBar:
   sameWorld: '&eTracking: &a&l<player> &7| &bIn <world> &7| &e Distance: &l <distance> m'

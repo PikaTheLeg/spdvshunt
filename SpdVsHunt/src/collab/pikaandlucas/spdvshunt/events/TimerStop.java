@@ -2,16 +2,15 @@ package collab.pikaandlucas.spdvshunt.events;
 
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
-import org.bukkit.scheduler.BukkitRunnable;
 
 public class TimerStop extends Event {
 	private int ticksRemain;
 	private boolean isComplete;
-	private BukkitRunnable runnable;
+	private int taskID;
 	
-	public TimerStop(int ticks, BukkitRunnable runnable) {
+	public TimerStop(int ticks, int taskID) {
 		this.ticksRemain = ticks;
-		this.runnable = runnable;
+		this.taskID = taskID;
 		if (ticks <= 0) {
 			this.isComplete = true;
 		}
@@ -28,8 +27,8 @@ public class TimerStop extends Event {
 		return isComplete;
 	}
 	
-	public BukkitRunnable getRunnable() {
-		return runnable;
+	public int getTaskID() {
+		return taskID;
 	}
 	
 	private static final HandlerList handlers = new HandlerList();
