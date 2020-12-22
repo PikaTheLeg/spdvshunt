@@ -365,6 +365,7 @@ public class SpdVsHunt implements CommandExecutor {
 								
 								timer.getScore("global").setScore(secs);
 								timerTask = new TimerRunable(this.plugin, this.boardRef).runTaskTimer(this.plugin, 10, 20);
+								Utils.brodcastTitle("Timer start", null);
 							}
 						}
 					}
@@ -395,7 +396,7 @@ public class SpdVsHunt implements CommandExecutor {
 				}
 				else if (args[1].equals("resume")) {
 					if (timer.getScore("global").getScore() > 0 && timer != null) {
-						Bukkit.broadcastMessage("Timer resumed");
+						Utils.brodcastTitle("Resumed timer", null);
 						timerTask = new TimerRunable(this.plugin, this.boardRef).runTaskTimer(this.plugin, 10, 20);
 						return true;
 					}
