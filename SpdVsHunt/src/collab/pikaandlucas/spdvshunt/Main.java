@@ -70,15 +70,12 @@ public class Main extends JavaPlugin {
 		board.registerNewObjective("compassSelector", "dummy", "Selector");
 		
 		board.registerNewObjective("timer", "dummy", "Timer");
-<<<<<<< HEAD
 		boardRef = new WeakReference<>(board);
-=======
 		
 		// create objective for sidebar Scoreboard.
 		board.registerNewObjective("sidebar", "dummy", Utils.chat("&6Speedrunner Vs Hunter"));
 		
-		boardRef = new WeakReference<>(board); 
->>>>>>> 4f5d418d996faea5cd4316bba0c78d4ff0bd43a0
+		boardRef = new WeakReference<>(board);
 	}
 	
 	@Override

@@ -31,14 +31,14 @@ public class TimerRunable extends BukkitRunnable {
 		 */
 		// while running update the timer on scoreboard
 		
-		int ticks = timer.getScore("global").getScore();
-		if (ticks <= 0) {
-			Bukkit.getServer().getPluginManager().callEvent(new TimerStop(ticks, this.getTaskId()));
+		int secs = timer.getScore("global").getScore();
+		if (secs <= 0) {
+			Bukkit.getServer().getPluginManager().callEvent(new TimerStop(secs, this.getTaskId()));
 			return;
 		}
 		
-		Bukkit.broadcastMessage(Integer.toString(ticks));
-		ticks -= 1;
-		timer.getScore("global").setScore(ticks);
+		Bukkit.broadcastMessage(Integer.toString(secs));
+		secs -= 1;
+		timer.getScore("global").setScore(secs);
 	}
 }

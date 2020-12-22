@@ -364,6 +364,28 @@ public class SpdVsHunt implements CommandExecutor {
 					}
 					return true;
 				}
+				else if (args[1].equals("pause")) {
+					if (args[2].equals("timer")) {
+						if (timer.getScore("global").getScore() > 0 && timer != null) {
+							Bukkit.getServer().getPluginManager().callEvent(new TimerStop(timer.getScore("global").getScore(), timerTask.getTaskId()));
+						}
+						else {
+							sender.sendMessage(Utils.chat(plugin.getMessages().getString("svhVsHunt.noTimerActive")));
+						}
+					}
+					return true;
+				}
+				else if (args[1].equals("resume")) {
+					if (timer.getScore("global").getScore() > 0 && timer != null) {
+						Bukkit.broadcastMessage("Timer resumed");
+						timerTask = new TimerRunable(this.plugin, this.boardRef).runTaskTimer(this.plugin, 10, 20);
+						return true;
+					}
+					else {
+						sender.sendMessage(Utils.chat(plugin.getMessages().getString("svhVsHunt.noTimerActive")));
+						return false;
+					}
+				}
 				
 			} else if (args[0].equals("revive")) {
 				// Check if the player specified a playername. Otherwise they are likely specifying themselves.

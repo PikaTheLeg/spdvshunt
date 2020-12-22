@@ -4,14 +4,14 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
 public class TimerStop extends Event {
-	private int ticksRemain;
+	private int secsRemain;
 	private boolean isComplete;
 	private int taskID;
 	
-	public TimerStop(int ticks, int taskID) {
-		this.ticksRemain = ticks;
+	public TimerStop(int secs, int taskID) {
+		this.secsRemain = secs;
 		this.taskID = taskID;
-		if (ticks <= 0) {
+		if (secs <= 0) {
 			this.isComplete = true;
 		}
 		else {
@@ -19,8 +19,8 @@ public class TimerStop extends Event {
 		}
 	}
 	
-	public int getTicksRemain() {
-		return ticksRemain;
+	public int getSecsRemain() {
+		return secsRemain;
 	}
 	
 	public boolean getIsComplete() {
