@@ -26,18 +26,20 @@ public class Utils {
 	}
 	
 	public static void brodcastTitle(@Nullable String title, @Nullable String subtitle, int fadeIn, int stay, int fadeOut) {
-		Player[] players = (Player[]) Bukkit.getOnlinePlayers().toArray();
+		Object[] playersObj = Bukkit.getOnlinePlayers().toArray();
 		
-		for (Player player : players) {
+		for (Object playerObj : playersObj) {
+			Player player = (Player) playerObj;
 			player.sendTitle(title, subtitle, fadeIn, stay, fadeOut);
 		}
 	}
 	
 	@SuppressWarnings("deprecation")
 	public static void brodcastTitle(@Nullable String title, @Nullable String subtitle) {
-		Player[] players = (Player[]) Bukkit.getOnlinePlayers().toArray();
+		Object[] playersObj = Bukkit.getOnlinePlayers().toArray();
 		
-		for (Player player : players) {
+		for (Object playerObj : playersObj) {
+			Player player = (Player) playerObj;
 			player.sendTitle(title, subtitle);
 		}
 	}

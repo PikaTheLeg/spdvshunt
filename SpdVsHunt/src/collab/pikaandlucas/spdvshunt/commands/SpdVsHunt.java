@@ -383,7 +383,7 @@ public class SpdVsHunt implements CommandExecutor {
 				}
 				else if (args[1].equals("stop")) {
 					if (args[2].equals("timer")) {
-						if (timer.getScore("global").getScore() > 0 || timer != null) {
+						if ((timer.getScore("global").getScore() > 0 && timer != null) || (timerTask != null && !timerTask.isCancelled())) {
 							Bukkit.getServer().getPluginManager().callEvent(new TimerStop(0, timerTask.getTaskId()));
 							timer.getScore("global").setScore(0);
 						}
@@ -395,7 +395,7 @@ public class SpdVsHunt implements CommandExecutor {
 				}
 				else if (args[1].equals("pause")) {
 					if (args[2].equals("timer")) {
-						if (timer.getScore("global").getScore() > 0 && timer != null) {
+						if ((timer.getScore("global").getScore() > 0 && timer != null) || (timerTask != null && !timerTask.isCancelled())) {
 							Bukkit.getServer().getPluginManager().callEvent(new TimerStop(timer.getScore("global").getScore(), timerTask.getTaskId()));
 						}
 						else {
@@ -405,7 +405,7 @@ public class SpdVsHunt implements CommandExecutor {
 					return true;
 				}
 				else if (args[1].equals("resume")) {
-					if (timer.getScore("global").getScore() > 0 && timer != null) {
+					if (timer.getScore("global").getScore() > 0 && timer != null && timerTask.isCancelled()) {
 						Utils.brodcastTitle("Resumed timer", null);
 						timerTask = new TimerRunable(this.plugin, this.boardRef).runTaskTimer(this.plugin, 10, 20);
 						return true;
