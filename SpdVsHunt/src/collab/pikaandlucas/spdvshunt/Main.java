@@ -18,6 +18,8 @@ import collab.pikaandlucas.spdvshunt.listeners.DisconnectPlayer;
 import collab.pikaandlucas.spdvshunt.listeners.MoveCompass;
 import collab.pikaandlucas.spdvshunt.listeners.MovePlayer;
 import collab.pikaandlucas.spdvshunt.listeners.TimerStopListener;
+import collab.pikaandlucas.spdvshunt.runnables.SidebarScoreboard;
+import collab.pikaandlucas.spdvshunt.utils.Utils;
 
 public class Main extends JavaPlugin {
 	
@@ -68,6 +70,10 @@ public class Main extends JavaPlugin {
 		board.registerNewObjective("compassSelector", "dummy", "Selector");
 		
 		board.registerNewObjective("timer", "dummy", "Timer");
+		
+		// create objective for sidebar Scoreboard.
+		board.registerNewObjective("sidebar", "dummy", Utils.chat("&6Speedrunner Vs Hunter"));
+		
 		boardRef = new WeakReference<>(board); 
 	}
 	
@@ -84,6 +90,7 @@ public class Main extends JavaPlugin {
 		new ClickCompass(this, boardRef);
 		new DeathPlayer(this, boardRef);
 		new DisconnectPlayer(this, boardRef);
+		new SidebarScoreboard(this, boardRef).runTaskTimer(this, 0, 20);
 		Bukkit.getServer().getPluginManager().registerEvents(new TimerStopListener(), this);
 	}
 }
