@@ -2,10 +2,12 @@ package collab.pikaandlucas.spdvshunt.utils;
 
 import java.util.ArrayList;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.craftbukkit.libs.jline.internal.Nullable;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.CompassMeta;
@@ -21,6 +23,23 @@ public class Utils {
 	
 	public static String chat (String s) {
 		return ChatColor.translateAlternateColorCodes('&', s);
+	}
+	
+	public static void brodcastTitle(@Nullable String title, @Nullable String subtitle, int fadeIn, int stay, int fadeOut) {
+		Player[] players = (Player[]) Bukkit.getOnlinePlayers().toArray();
+		
+		for (Player player : players) {
+			player.sendTitle(title, subtitle, fadeIn, stay, fadeOut);
+		}
+	}
+	
+	@SuppressWarnings("deprecation")
+	public static void brodcastTitle(@Nullable String title, @Nullable String subtitle) {
+		Player[] players = (Player[]) Bukkit.getOnlinePlayers().toArray();
+		
+		for (Player player : players) {
+			player.sendTitle(title, subtitle);
+		}
 	}
 	
 	// Give Tracker Compass

@@ -5,12 +5,13 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
 import collab.pikaandlucas.spdvshunt.events.TimerStop;
+import collab.pikaandlucas.spdvshunt.utils.Utils;
 
 public class TimerStopListener implements Listener {
 	
 	@EventHandler
 	public void onTimerStop(TimerStop e) {
-		Bukkit.broadcastMessage("timer has stoped");
+		Utils.brodcastTitle("Timmer has stopped", null);
 		
 		int taskID = e.getTaskID();
 		
