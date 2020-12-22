@@ -9,4 +9,4 @@ commands:
   spdVsHunt:
     description: Main command line for joining teams, change settings and reset for Speedrunner Vs Hunter games. Do /svh help for help on these commands.
     aliases: svh
-    usage: "SpdVsHunt Usage: \n /<command> join [speedrunner|hunter|none] <playername> \n /<command> settings [hunterBarInfo|runnerCompass|timerBorder|autoTracking] \n /<command> reset \n /<command> clock [start|pause|resume|stop] \n /<command> revive <playername> \n /<command> help [join|settings|clock|revive|reset]"
+    usage: "SpdVsHunt Usage: \n /<command> join [speedrunner|hunter|none] <playername> \n /<command> settings [hunterBarInfo|runnerCompass|border|autoTracking] \n /<command> reset \n /<command> clock [start|pause|resume|stop] \n /<command> revive <playername> \n /<command> help [join|settings|clock|revive|reset]"
