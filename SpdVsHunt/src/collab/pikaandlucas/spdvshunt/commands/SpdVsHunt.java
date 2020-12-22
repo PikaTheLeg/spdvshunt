@@ -355,7 +355,7 @@ public class SpdVsHunt implements CommandExecutor {
 				else if (args[1].equals("stop")) {
 					if (args[2].equals("timer")) {
 						if (timer.getScore("global").getScore() > 0 || timer != null) {
-							Bukkit.getServer().getPluginManager().callEvent(new TimerStop(timer.getScore("global").getScore(), timerTask.getTaskId()));
+							Bukkit.getServer().getPluginManager().callEvent(new TimerStop(0, timerTask.getTaskId()));
 							timer.getScore("global").setScore(0);
 						}
 						else {
@@ -419,7 +419,7 @@ public class SpdVsHunt implements CommandExecutor {
 					sender.sendMessage(Utils.chat(plugin.getMessages().getString("spdVsHunt.reviveFalsePlayer").replace("<player>", args[1])));
 				}
 				return true;
-			} else if (args[0].equals("help")) { 
+			} else if (args[0].equals("help")) {
 				// Check if there are any specific command the user is looking for help on.
 				if (args.length > 1) {
 					switch (args[1]) {
