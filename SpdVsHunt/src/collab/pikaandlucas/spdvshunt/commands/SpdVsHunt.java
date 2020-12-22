@@ -46,12 +46,6 @@ public class SpdVsHunt implements CommandExecutor {
 		deaths = board.getObjective("deaths");
 		compassSelector = board.getObjective("compassSelector");
 		timer = board.getObjective("timer");
-
-		// what's the point of a config if u immediatly overwrite the config
-		// TODO check if config file exists if config file does not exist set defaults
-		plugin.getConfig().set("options.hunterBar", "false");
-		plugin.getConfig().set("options.runnerCompass", "true");
-		plugin.saveConfig();
 		
 		plugin.getCommand("spdVsHunt").setExecutor(this);
 		plugin.getCommand("spdVsHunt").setTabCompleter(new SVHTabComplete());
@@ -105,7 +99,7 @@ public class SpdVsHunt implements CommandExecutor {
 					hunters.removeEntry(player.getName());
 					
 					// tell all players on server that player has joined the speedrunner team
-					Bukkit.broadcastMessage(Utils.chat(plugin.getConfig().getString("spdVsHunt.joinSpd").replace("<player>", player.getName())));
+					Bukkit.broadcastMessage(Utils.chat(plugin.getMessages().getString("spdVsHunt.joinSpd").replace("<player>", player.getName())));
 					
 					// if config is set so that speedrunners are allowed to have a tracker compass for other speedrunners
 					if (plugin.getConfig().getString("options.runnerCompass").equals("true")) {
@@ -124,7 +118,7 @@ public class SpdVsHunt implements CommandExecutor {
 				// if the player is already apart of the speedrunner team
 				else {
 					// send a message to sender explaining that specified player is already a speedrunner
-					sender.sendMessage(Utils.chat(plugin.getConfig().getString("spdVsHunt.alreadySpd").replace("<player>", player.getName())));
+					sender.sendMessage(Utils.chat(plugin.getMessages().getString("spdVsHunt.alreadySpd").replace("<player>", player.getName())));
 				}
 				
 				// successful command completion
@@ -148,12 +142,12 @@ public class SpdVsHunt implements CommandExecutor {
 					compassSelector.getScore(player.getName()).setScore(0);
 					
 					// broadcast to all players that player has joined the hunter team
-					Bukkit.broadcastMessage(Utils.chat(plugin.getConfig().getString("spdVsHunt.joinHunt").replace("<player>", player.getName())));					
+					Bukkit.broadcastMessage(Utils.chat(plugin.getMessages().getString("spdVsHunt.joinHunt").replace("<player>", player.getName())));					
 				}
 				// if player is already apart of the hunter team
 				else {
 					// inform sender that player is already a hunter
-					sender.sendMessage(Utils.chat(plugin.getConfig().getString("spdVsHunt.alreadyHunt").replace("<player>", player.getName())));
+					sender.sendMessage(Utils.chat(plugin.getMessages().getString("spdVsHunt.alreadyHunt").replace("<player>", player.getName())));
 				}
 				// successful command completion
 				return true;
@@ -166,14 +160,14 @@ public class SpdVsHunt implements CommandExecutor {
 					hunters.removeEntry(player.getName());
 					
 					// broadcast that the player has been removed from the game
-					Bukkit.broadcastMessage(Utils.chat(plugin.getConfig().getString("spdVsHunt.joinNone").replace("<player>", player.getName())));
+					Bukkit.broadcastMessage(Utils.chat(plugin.getMessages().getString("spdVsHunt.joinNone").replace("<player>", player.getName())));
 					// ensure the player doesn't have a tracker compass
 					Utils.removeCompass(plugin, player);
 				}
 				// if the player is not a part of either the hunters or speedrunners
 				else {
 					// inform sender that this player is not a part of either team
-					sender.sendMessage(Utils.chat(plugin.getConfig().getString("spdVsHunt.alreadyNone").replace("<player>", player.getName())));
+					sender.sendMessage(Utils.chat(plugin.getMessages().getString("spdVsHunt.alreadyNone").replace("<player>", player.getName())));
 				}
 				// successful command completion
 				return true;
@@ -228,12 +222,12 @@ public class SpdVsHunt implements CommandExecutor {
 								return true;
 							} else {
 								// Invalid Team, team is not found.
-								sender.sendMessage(Utils.chat(plugin.getConfig().getString("teamNotFound").replace("<team>", args[1])));
+								sender.sendMessage(Utils.chat(plugin.getMessages().getString("teamNotFound").replace("<team>", args[1])));
 								return true;
 							}
 						} else {
 							// Player not found. Return error message.
-							sender.sendMessage(Utils.chat(plugin.getConfig().getString("playerNotFound").replace("<player>", args[2])));
+							sender.sendMessage(Utils.chat(plugin.getMessages().getString("playerNotFound").replace("<player>", args[2])));
 							return true;
 						}
 						
@@ -249,12 +243,12 @@ public class SpdVsHunt implements CommandExecutor {
 								return true;
 							} else {
 								// Invalid Team, team is not found.
-								sender.sendMessage(Utils.chat(plugin.getConfig().getString("teamNotFound").replace("<team>", args[1])));
+								sender.sendMessage(Utils.chat(plugin.getMessages().getString("teamNotFound").replace("<team>", args[1])));
 								return true;
 							}
 						} else {
 							// Sender is console, print error message.
-							sender.sendMessage(Utils.chat(plugin.getConfig().getString("consoleErrorMessage")));
+							sender.sendMessage(Utils.chat(plugin.getMessages().getString("consoleErrorMessage")));
 							return true;
 						}
 					}
@@ -274,11 +268,11 @@ public class SpdVsHunt implements CommandExecutor {
 						if (extraInfo.equals("false")) {
 							// Set to true
 							plugin.getConfig().set("options.hunterBar", "true");
-							Bukkit.broadcastMessage(Utils.chat(plugin.getConfig().getString("spdVsHunt.hunterBarTrue")));
+							Bukkit.broadcastMessage(Utils.chat(plugin.getMessages().getString("spdVsHunt.hunterBarTrue")));
 						} else {
 							// Set to false
 							plugin.getConfig().set("options.hunterBar", "false");
-							Bukkit.broadcastMessage(Utils.chat(plugin.getConfig().getString("spdVsHunt.hunterBarFalse")));
+							Bukkit.broadcastMessage(Utils.chat(plugin.getMessages().getString("spdVsHunt.hunterBarFalse")));
 						}
 						plugin.saveConfig();
 						return true;
@@ -288,7 +282,7 @@ public class SpdVsHunt implements CommandExecutor {
 						if (runnerCompass.equals("false")) {
 							// Set to true
 							plugin.getConfig().set("options.runnerCompass", "true");
-							Bukkit.broadcastMessage(Utils.chat(plugin.getConfig().getString("spdVsHunt.runnerCompassTrue")));
+							Bukkit.broadcastMessage(Utils.chat(plugin.getMessages().getString("spdVsHunt.runnerCompassTrue")));
 							
 							// All existing speedrunners now get a compass if needed.
 							for (String playername: speedrunners.getEntries()) {
@@ -299,7 +293,7 @@ public class SpdVsHunt implements CommandExecutor {
 						} else {
 							// Set to false
 							plugin.getConfig().set("options.runnerCompass", "false");
-							Bukkit.broadcastMessage(Utils.chat(plugin.getConfig().getString("spdVsHunt.runnerCompassFalse")));
+							Bukkit.broadcastMessage(Utils.chat(plugin.getMessages().getString("spdVsHunt.runnerCompassFalse")));
 						
 							// Remove Compass from everyone
 							for (String playername: speedrunners.getEntries()) {
@@ -324,7 +318,7 @@ public class SpdVsHunt implements CommandExecutor {
 				// For each entry in objectives, and each player in teams.
 				// Reset Everything!
 				resetSVH();
-				Bukkit.broadcastMessage(Utils.chat(plugin.getConfig().getString("spdVsHunt.reset")));
+				Bukkit.broadcastMessage(Utils.chat(plugin.getMessages().getString("spdVsHunt.reset")));
 				return true;
 				
 			} else if (args[0].equals("clock")) {
@@ -338,7 +332,7 @@ public class SpdVsHunt implements CommandExecutor {
 				} else if (sender instanceof Player) {
 					player = (Player) sender;
 				} else {
-					sender.sendMessage(Utils.chat(plugin.getConfig().getString("consoleErrorMessage")));
+					sender.sendMessage(Utils.chat(plugin.getMessages().getString("consoleErrorMessage")));
 					return false;
 				}
 				
@@ -349,17 +343,17 @@ public class SpdVsHunt implements CommandExecutor {
 							// Revive player. Player rejoins.
 							deaths.getScore(player.getName()).setScore(0);
 							new RunnerCompass(this.plugin, player, boardRef).runTaskTimer(this.plugin, 10, 10);
-							Bukkit.broadcastMessage(Utils.chat(plugin.getConfig().getString("spdVsHunt.revive").replace("<player>", player.getName())));
+							Bukkit.broadcastMessage(Utils.chat(plugin.getMessages().getString("spdVsHunt.revive").replace("<player>", player.getName())));
 						} else {
 							// Error as player is still alive.
-							sender.sendMessage(Utils.chat(plugin.getConfig().getString("spdVsHunt.reviveFalseDeath").replace("<player>", player.getName())));
+							sender.sendMessage(Utils.chat(plugin.getMessages().getString("spdVsHunt.reviveFalseDeath").replace("<player>", player.getName())));
 						}
 					} else {
 						// Error that player is not in speedrunners.
-						sender.sendMessage(Utils.chat(plugin.getConfig().getString("spdVsHunt.reviveFalseTeam").replace("<player>", player.getName())));
+						sender.sendMessage(Utils.chat(plugin.getMessages().getString("spdVsHunt.reviveFalseTeam").replace("<player>", player.getName())));
 					}
 				} else {
-					sender.sendMessage(Utils.chat(plugin.getConfig().getString("spdVsHunt.reviveFalsePlayer").replace("<player>", args[1])));
+					sender.sendMessage(Utils.chat(plugin.getMessages().getString("spdVsHunt.reviveFalsePlayer").replace("<player>", args[1])));
 				}
 				return true;
 			} else if (args[0].equals("help")) { 
@@ -367,13 +361,13 @@ public class SpdVsHunt implements CommandExecutor {
 				if (args.length > 1) {
 					switch (args[1]) {
 						case "join":
-							sender.sendMessage(Utils.chat(plugin.getConfig().getString("help.join").replace("\\n", "\n")));
+							sender.sendMessage(Utils.chat(plugin.getMessages().getString("help.join").replace("\\n", "\n")));
 							return true;
 						case "settings":
-							sender.sendMessage(Utils.chat(plugin.getConfig().getString("help.settings").replace("\\n", "\n")));
+							sender.sendMessage(Utils.chat(plugin.getMessages().getString("help.settings").replace("\\n", "\n")));
 							return true;
 						case "reset":
-							sender.sendMessage(Utils.chat(plugin.getConfig().getString("help.reset").replace("\\n", "\n")));
+							sender.sendMessage(Utils.chat(plugin.getMessages().getString("help.reset").replace("\\n", "\n")));
 							return true;
 						case "revive":
 							sender.sendMessage("Help Revive!");
@@ -387,7 +381,7 @@ public class SpdVsHunt implements CommandExecutor {
 					}
 				}
 				// If args[1] is not found, show default help message
-				sender.sendMessage(Utils.chat(plugin.getConfig().getString("help.default").replace("\\n", "\n")));
+				sender.sendMessage(Utils.chat(plugin.getMessages().getString("help.default").replace("\\n", "\n")));
 				return true;
 			}
 		} else {

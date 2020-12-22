@@ -1,8 +1,13 @@
 package collab.pikaandlucas.spdvshunt;
 
+import java.io.File;
+import java.io.IOException;
 import java.lang.ref.WeakReference;
 
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.InvalidConfigurationException;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scoreboard.Scoreboard;
 
@@ -15,7 +20,33 @@ import collab.pikaandlucas.spdvshunt.listeners.MovePlayer;
 import collab.pikaandlucas.spdvshunt.listeners.TimerStopListener;
 
 public class Main extends JavaPlugin {
+	
 	WeakReference<Scoreboard> boardRef;
+	
+	private File messagesFile;
+	private FileConfiguration messages;
+	
+	public FileConfiguration getMessages() {
+		// Returns messages file to get messages.
+		return this.messages;
+	}
+	
+	private void createMessages() {
+		// Create file for messages.yml
+		messagesFile = new File(getDataFolder(), "messages.yml");
+		if (!messagesFile.exists()) {
+			// If message file does not exist. Create message file.
+			messagesFile.getParentFile().mkdirs();
+			saveResource("messages.yml", false);
+		}
+		
+		messages = new YamlConfiguration();
+		try {
+			messages.load(messagesFile);
+		} catch (IOException | InvalidConfigurationException e) {
+			e.printStackTrace();
+		}
+	}
 	
 	public void setScoreboard() {
 		// create new scoreboard
@@ -43,6 +74,7 @@ public class Main extends JavaPlugin {
 	@Override
 	public void onEnable() {
 		saveDefaultConfig();
+		createMessages();
 		setScoreboard();
 		
 		// List Commands and Listeners.

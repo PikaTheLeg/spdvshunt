@@ -117,31 +117,31 @@ public class HunterCompass extends BukkitRunnable {
 				if (playerWorld == speedrunnerWorld) {
 					// Speedrunner in same world as hunter.
 					Location location = new Location(player.getWorld(), playerX.getScore(), playerY.getScore(), playerZ.getScore());
-					player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(Utils.chat(plugin.getConfig().getString("trackingBar.sameWorld").replace("<player>", speedrunner.getName()).replace("<world>", spdrunWorld).replace("<distance>", Math.round(player.getLocation().distance(location)) + ""))));
+					player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(Utils.chat(plugin.getMessages().getString("trackingBar.sameWorld").replace("<player>", speedrunner.getName()).replace("<world>", spdrunWorld).replace("<distance>", Math.round(player.getLocation().distance(location)) + ""))));
 					Utils.giveCompass(plugin, player, playerX.getScore(), playerY.getScore(), playerZ.getScore(), false);
 				} else if (!playerX.isScoreSet()) {
 					// Score not set. Speedrunner has not visited the place.
-					player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(Utils.chat(plugin.getConfig().getString("trackingBar.notVisited").replace("<player>", speedrunner.getName()).replace("<world>", spdrunWorld).replace("<dimension>", worldName))));
+					player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(Utils.chat(plugin.getMessages().getString("trackingBar.notVisited").replace("<player>", speedrunner.getName()).replace("<world>", spdrunWorld).replace("<dimension>", worldName))));
 					Utils.giveCompass(plugin, player, 0, 0, 0, true);
 				} else {
 					// Score is set. Speedrunner is in different world.	
 					Location location = new Location(player.getWorld(), playerX.getScore(), playerY.getScore(), playerZ.getScore());
-					player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(Utils.chat(plugin.getConfig().getString("trackingBar.differentWorld").replace("<player>", speedrunner.getName()).replace("<world>", spdrunWorld).replace("<distance>", Math.round(player.getLocation().distance(location)) + ""))));
+					player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(Utils.chat(plugin.getMessages().getString("trackingBar.differentWorld").replace("<player>", speedrunner.getName()).replace("<world>", spdrunWorld).replace("<distance>", Math.round(player.getLocation().distance(location)) + ""))));
 					Utils.giveCompass(plugin, player, playerX.getScore(), playerY.getScore(), playerZ.getScore(), false);
 				}
 			} else {
 				if (!playerX.isScoreSet()) {
 					// If player has not visited this dimension, thus the score is not yet set.
-					player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(Utils.chat(plugin.getConfig().getString("trackingBar.noInfo").replace("<player>", speedrunner.getName()))));
+					player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(Utils.chat(plugin.getMessages().getString("trackingBar.noInfo").replace("<player>", speedrunner.getName()))));
 					Utils.giveCompass(plugin, player, 0, 0, 0, true);
 				} else {
-					player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(Utils.chat(plugin.getConfig().getString("trackingBar.noInfo").replace("<player>", speedrunner.getName()))));
+					player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(Utils.chat(plugin.getMessages().getString("trackingBar.noInfo").replace("<player>", speedrunner.getName()))));
 					Utils.giveCompass(plugin, player, playerX.getScore(), playerY.getScore(), playerZ.getScore(), false);
 				}
 			}
 		} else {
 			// No Alive Speedrunners. Send Appropriate Action Bar.
-			player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(Utils.chat(plugin.getConfig().getString("trackingBar.noSpeedrun"))));
+			player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(Utils.chat(plugin.getMessages().getString("trackingBar.noSpeedrun"))));
 			Utils.giveCompass(plugin, player, 0, 0, 0, true);
 		}
     	

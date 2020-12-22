@@ -71,9 +71,9 @@ public class ClickCompass implements Listener {
 					}
 					
 					if (aliveRunners.size() > 0) {
-						player.sendMessage(Utils.chat(plugin.getConfig().getString("spdVsHunt.nowTracking").replace("<player>", aliveRunners.get(playerSelect.getScore()))));
+						player.sendMessage(Utils.chat(plugin.getMessages().getString("spdVsHunt.nowTracking").replace("<player>", aliveRunners.get(playerSelect.getScore()))));
 					} else {
-						player.sendMessage(Utils.chat(plugin.getConfig().getString("spdVsHunt.notTracking")));
+						player.sendMessage(Utils.chat(plugin.getMessages().getString("spdVsHunt.notTracking")));
 					}
 				}
 			}
@@ -109,7 +109,7 @@ public class ClickCompass implements Listener {
 					}
 					
 					// Send message on who they are currently tracking. 
-					player.sendMessage(Utils.chat(plugin.getConfig().getString("spdVsHunt.nowTracking").replace("<player>", aliveRunners.get(playerSelect.getScore()))));
+					player.sendMessage(Utils.chat(plugin.getMessages().getString("spdVsHunt.nowTracking").replace("<player>", aliveRunners.get(playerSelect.getScore()))));
 				}
 			}
 		}

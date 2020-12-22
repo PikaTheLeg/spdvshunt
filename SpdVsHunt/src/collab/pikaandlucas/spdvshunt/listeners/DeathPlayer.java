@@ -53,10 +53,10 @@ public class DeathPlayer implements Listener {
 
 			ArrayList<String> aliveRunners = Utils.aliveRunners(board);
 			if (aliveRunners.size() > 0) {
-				Bukkit.broadcastMessage(Utils.chat(plugin.getConfig().getString("spdVsHunt.runnerDied").replace("<player>", e.getEntity().getName()).replace("<number>", aliveRunners.size()+"")));
+				Bukkit.broadcastMessage(Utils.chat(plugin.getMessages().getString("spdVsHunt.runnerDied").replace("<player>", e.getEntity().getName()).replace("<number>", aliveRunners.size()+"")));
 			} else {
 				// Hunters Win!
-				Bukkit.broadcastMessage(Utils.chat(plugin.getConfig().getString("spdVsHunt.runnersLost").replace("<player>", e.getEntity().getName())));
+				Bukkit.broadcastMessage(Utils.chat(plugin.getMessages().getString("spdVsHunt.runnersLost").replace("<player>", e.getEntity().getName())));
 			}
 			
 			// Check for compass drop, and deletes it.
@@ -91,7 +91,7 @@ public class DeathPlayer implements Listener {
 	public void onEnderDragonDeath(EntityDeathEvent e){
 	     if(e.getEntity() instanceof EnderDragon){
 	         // Runners Win!
-	    	 Bukkit.broadcastMessage(Utils.chat(plugin.getConfig().getString("spdVsHunt.runnersWin")));
+	    	 Bukkit.broadcastMessage(Utils.chat(plugin.getMessages().getString("spdVsHunt.runnersWin")));
 	    }
 	}
 }

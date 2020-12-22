@@ -14,10 +14,8 @@ public class TimerRunable extends BukkitRunnable {
 	Scoreboard board;
 	Objective timer;
 	
-	private Main plugin;
 	
 	public TimerRunable(Main plugin, WeakReference<Scoreboard> boardRef) {
-		this.plugin = plugin;
         
         board = (Scoreboard) boardRef.get();
 		timer = board.getObjective("timer");

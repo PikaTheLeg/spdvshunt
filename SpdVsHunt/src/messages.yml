@@ -1,0 +1,43 @@
+# Contains all messages used through SpdVsHunt plugin.
+
+# General Messages
+consoleErrorMessage: '&8[&c*&8] &cAs Console, you must specify a playername!'
+noPerm: '&8[&c*&8] &cYou do not have permission to execute this command!'
+playerNotFound: '&8[&c*&8] &cUnable to find an online player by the username "<player>".'
+teamNotFound: '&8[&c*&8] &cUnable to find a team by the name "<team>".'
+
+# Speedrunner Vs Hunter.
+spdVsHunt:
+  joinSpd: '&8[&a*&8] &a<player>&7 has joined Team &bSpeedrunner&7.'
+  alreadySpd: '&8[&c*&8] &a<player>&7 is already in Team &bSpeedrunner&7!'
+  joinHunt: '&8[&a*&8] &c<player>&7 has joined Team &cHunter&7.'
+  alreadyHunt: '&8[&c*&8] &c<player>&7 is already in Team &cHunter&7!'
+  joinNone: '&8[&a*&8] &f<player>&7 is no longer participating in Speedrunner Vs Hunter.'
+  alreadyNone: '&8[&c*&8] &f<player>&7 is already not participating in Speedrunner Vs Hunter.'
+  nowTracking: '&8[&a*&8] &7You are now tracking &c<player>&7.'
+  notTracking: '&8[&c*&8] &7There are currently no Speedrunners to track.'
+  runnerDied: '&8[&a*&8] &7Speedrunner &a<player> &7has died. &e<number> &7remaining left.'
+  runnersLost: '&8[&a*&8] &7Speedrunner &a<player> &7has died. No remaining Speedrunners. &cHunters &7has won!'
+  runnersWin: '&8[&a*&8] &7The Ender Dragon has died. &aSpeedrunners &7has won!'
+  hunterBarTrue: '&8[&a*&8] &cHunter &7action bar tracker now shows speedrunner dimension and distance.'
+  hunterBarFalse: '&8[&a*&8] &cHunter &7action bar tracker now only shows speedrunner name.'
+  runnerCompassTrue: '&8[&a*&8] &aSpeedrunners &7now have a tracker compass which tracks other speedrunners (if there are any).'
+  runnerCompassFalse: '&8[&a*&8] &aSpeedrunners &7no longer have a tracker compass to show other speedrunners.'
+  reset: '&8[&a*&8] &aSpeedrunner Vs Hunter has been successfully reset.'
+  revive: '&8[&a*&8] &bSpeedrunner &a<player> &7has revived.'
+  reviveFalseDeath: '&8[&c*&8] &bSpeedrunner &a<player> &7is already alive.'
+  reviveFalseTeam: '&8[&c*&8] &7Could not find &a<player> &7in Team &bSpeedrunners&7.'
+  reviveFalsePlayer: '&8[&c*&8] &7Could not find an online player named "&a<player>".'
+
+trackingBar:
+  sameWorld: '&eTracking: &a&l<player> &7| &bIn <world> &7| &e Distance: &l <distance> m'
+  differentWorld: '&eTracking: &a&l<player> &7| &bAway in <world> &7| &e Last Known Coords Distance: &l <distance> m'
+  notVisited: '&cUnable to Track &a&l<player> &7| &bAway in <world> &7| &e Has not visited this <dimension>.'
+  noInfo: '&eTracking: &a&l<player>'
+  noSpeedrun: '&cNo Alive Speedrunners Detected.'
+
+help:
+  default: '&r\n&8[&a*&8] &6SpdVsHunt Help Guide&7 (&fdo &7“&e/svh help&7” &fto bring this up!&7): \n&8&oBy PikaLegend_ and Lucas \n &r \n&aSpeedrunner Vs Hunter &fis a Minecraft survival minigame, popularised by Dream, with the goal to speedrun Minecraft (defeat the Ender Dragon) while being chased by hunters. \n &r\n&fFor more info on each command, do &7“&e/svh help <command>&7”&f. &7(&eExample: “/svh help join”&7) \n&r\n&7- “&e/svh join [speedrunner | hunter | none]&7”: &fParticipate in Speedrunner Vs Hunter as a speedrunner, hunter, or leave. \n&7- “&e/svh settings [hunterBarInfo | runnerCompass]&7”: &fChange settings which affects the game slightly. \n&7- “&e/svh reset&7”: &fResets Scoreboards and Teams for another run. (Does not reset world)'
+  join: '&r\n&8[&a*&8] &6SpdVsHunt Join Help Guide&7 (&fdo &7“&e/svh help join&7” &fto bring this up!&7): \n&r\n&fUsage: &e/svh join [speedrunner | hunter | none] <playername>\n&r\n&e<playername> &fis an optional argument. When not specified, it selects the command executor as the player.\n&r\n&7- “&e/svh join speedrunner&7”: &fJoins the speedrunners team. Wins by defeating the ender dragon without dying.\n&7- “&e/svh join hunter&7”: &fJoins the hunters team. Wins if all speedrunners dies before defeating the ender dragon. Right click tracker compass to cycle through each speedrunner.\n&7- “&e/svh join none&7”: &fLeave speedrunners or hunters team. Used for spectating games if needed.'
+  settings: '&r\n&8[&a*&8] &6SpdVsHunt Settings Help Guide &7(&fdo &7“&e/svh help settings&7” &fto bring this up!&7): \n&r\n&fUsage: &e/svh settings [hunterBarInfo | runnerCompass] \n&r\n&fToggle the settings between true or false when executed. \n&r\n&7- “&e/svh settings hunterBarInfo&7”: &fGives hunters information of the distance and dimensions of the tracked speedrunner when true. False by default. \n&7- “&e/svh settings runnerCompass&7”: &fWhen there are multiple speedrunners, gives speedrunners a compass to track other speedrunners when true. True by default.'
+  reset: '&r\n&8[&a*&8] &6SpdVsHunt Reset Help Guide&7 (&fdo &7“&e/svh help reset&7” &fto bring this up!&7): \n&r\n&fUsage: &e/svh reset \n&r\n&fResets all scoreboards and teams to allow for a new game of speedrunner vs hunter. Useful for doing a rematch in the same world without reloading the server.'

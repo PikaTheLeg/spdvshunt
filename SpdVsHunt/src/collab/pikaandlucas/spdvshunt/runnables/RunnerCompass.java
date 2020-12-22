@@ -105,10 +105,10 @@ public class RunnerCompass extends BukkitRunnable {
 			// Update Compass and Action bar.
 			if (!playerX.isScoreSet()) {
 				// If player has not visited this dimension, thus the score is not yet set.
-				player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(Utils.chat(plugin.getConfig().getString("trackingBar.noInfo").replace("<player>", speedrunner.getName()))));
+				player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(Utils.chat(plugin.getMessages().getString("trackingBar.noInfo").replace("<player>", speedrunner.getName()))));
 				Utils.giveCompass(plugin, player, 0 , 0, 0, true);
 			} else {
-				player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(Utils.chat(plugin.getConfig().getString("trackingBar.noInfo").replace("<player>", speedrunner.getName()))));
+				player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(Utils.chat(plugin.getMessages().getString("trackingBar.noInfo").replace("<player>", speedrunner.getName()))));
 				Utils.giveCompass(plugin, player, playerX.getScore(), playerY.getScore(), playerZ.getScore(), false);
 			}
 			
