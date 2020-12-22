@@ -117,4 +117,16 @@ public class Utils {
 		return list;
 	}
 	
+	public static int[] timeFormat(int inputSeconds) {
+		// Returns time from seconds into hh, mm and seconds, as an Array.
+		// int[0] = hours, int[1] = minutes, int[2] = seconds.
+		int[] time = new int[3];
+		
+		time[0] = inputSeconds / 3600; // Hours
+		time[1] = (inputSeconds % 3600) / 60; // Minutes
+		time[2] = inputSeconds % 60; // Seconds
+		
+		return time;
+	}
+	
 }
