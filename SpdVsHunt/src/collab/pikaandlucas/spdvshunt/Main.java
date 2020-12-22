@@ -71,7 +71,6 @@ public class Main extends JavaPlugin {
 		board.registerNewObjective("timer", "dummy", "Timer");
 
 		boardRef = new WeakReference<>(board);
-		
 	}
 	
 	@Override

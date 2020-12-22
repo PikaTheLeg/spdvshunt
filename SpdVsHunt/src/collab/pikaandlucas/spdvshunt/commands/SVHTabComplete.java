@@ -68,10 +68,11 @@ public class SVHTabComplete implements TabCompleter {
 						break;
 					case "settings":
 						switch (args[1].toLowerCase()) {
-							case "timerBorder":
-								list.add("startRadius");
-								list.add("endRadius");
-								list.add("toggle");
+							case "border":
+								list.add("start");
+								list.add("end");
+								list.add("on");
+								list.add("off");
 								break;
 							default:
 								break;

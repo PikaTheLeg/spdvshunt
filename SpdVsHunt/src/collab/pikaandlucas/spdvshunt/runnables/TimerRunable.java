@@ -37,7 +37,6 @@ public class TimerRunable extends BukkitRunnable {
 			return;
 		}
 		
-		Bukkit.broadcastMessage(Integer.toString(secs));
 		secs -= 1;
 		timer.getScore("global").setScore(secs);
 	}

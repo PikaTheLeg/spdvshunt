@@ -3,6 +3,7 @@ package collab.pikaandlucas.spdvshunt.commands;
 import java.lang.ref.WeakReference;
 
 import org.bukkit.Bukkit;
+import org.bukkit.WorldBorder;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -32,6 +33,7 @@ public class SpdVsHunt implements CommandExecutor {
 	Objective compassSelector;
 	Objective timer;
 	BukkitTask timerTask;
+	WorldBorder Border;
 	
 	private Main plugin;
 	
@@ -194,7 +196,7 @@ public class SpdVsHunt implements CommandExecutor {
 		 * args[2]: "stopwatch", "timer"
 		 * 
 		 * Options:
-		 * args[1]: "hunterBarInfo", "runnerCompass", "timerBorder", "autoTracking"
+		 * args[1]: "hunterBarInfo", "runnerCompass", "border", "autoTracking"
 		 * 
 		 * Revive:
 		 * args[1]: <playername>
@@ -308,6 +310,22 @@ public class SpdVsHunt implements CommandExecutor {
 						plugin.saveConfig();
 						return true;
 
+					}
+					else if (args[1].equals("border")) {
+						if (args.length > 2) {
+							if (args[2].equals("on")) {
+								sender.sendMessage("border would be turned on now");
+							}
+							else if (args[2].equals("off")) {
+								sender.sendMessage("border would turn off");
+							}
+							else if (args[2].equals("set")) {
+								sender.sendMessage("this would set stuff");
+							}
+						}
+						else {
+							return false;
+						}
 					}
 				} else if (args[1].toLowerCase().equals("autoTracking")) {
 					sender.sendMessage("Settings autoTracking!");
