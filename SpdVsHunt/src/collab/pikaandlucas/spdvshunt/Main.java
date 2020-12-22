@@ -19,7 +19,6 @@ import collab.pikaandlucas.spdvshunt.listeners.MoveCompass;
 import collab.pikaandlucas.spdvshunt.listeners.MovePlayer;
 import collab.pikaandlucas.spdvshunt.listeners.TimerStopListener;
 import collab.pikaandlucas.spdvshunt.runnables.SidebarScoreboard;
-import collab.pikaandlucas.spdvshunt.utils.Utils;
 
 public class Main extends JavaPlugin {
 	
@@ -70,22 +69,8 @@ public class Main extends JavaPlugin {
 		board.registerNewObjective("compassSelector", "dummy", "Selector");
 		
 		board.registerNewObjective("timer", "dummy", "Timer");
-<<<<<<< HEAD
 
 		boardRef = new WeakReference<>(board);
-
-=======
-		boardRef = new WeakReference<>(board);
->>>>>>> 009d51d40555760187537e9e6ac4456e99dd418c
-		
-		// create objective for sidebar Scoreboard.
-		board.registerNewObjective("sidebar", "dummy", Utils.chat("&6Speedrunner Vs Hunter"));
-		
-<<<<<<< HEAD
-		boardRef = new WeakReference<>(board); 
-=======
-		boardRef = new WeakReference<>(board);
->>>>>>> 009d51d40555760187537e9e6ac4456e99dd418c
 	}
 	
 	@Override

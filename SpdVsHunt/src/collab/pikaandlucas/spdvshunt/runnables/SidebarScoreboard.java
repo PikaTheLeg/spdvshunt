@@ -17,22 +17,25 @@ import collab.pikaandlucas.spdvshunt.utils.Utils;
 
 public class SidebarScoreboard extends BukkitRunnable {
 	Scoreboard board;
-	Objective sidebar;
 	Score seconds;
 	Team hunters;
-	ArrayList<String> displayScores = new ArrayList<String>();
-	
+	ArrayList<String> displayEntries;
+			
 	public SidebarScoreboard(Main plugin, WeakReference<Scoreboard> boardRef) {
 		board = (Scoreboard) boardRef.get();
-		sidebar = board.getObjective("sidebar");
 		seconds = board.getObjective("timer").getScore("global");
 		hunters = board.getTeam("svhHunters");
-		sidebar.setDisplaySlot(DisplaySlot.SIDEBAR);
 	}
 	
 	@Override
 	public void run() {
+		Scoreboard display = Bukkit.getScoreboardManager().getNewScoreboard();
+		Objective sidebar = display.registerNewObjective("sidebar", "dummy", Utils.chat("&6Speedrunner Vs Hunter"));
+		sidebar.setDisplaySlot(DisplaySlot.SIDEBAR);
+		
 		// Update board
+		ArrayList<String> displayScores = new ArrayList<String>();
+		
 		if (seconds.isScoreSet() && seconds.getScore() > 0) {
 			// Timer is running
 			int[] time = Utils.timeFormat(seconds.getScore());
@@ -47,7 +50,6 @@ public class SidebarScoreboard extends BukkitRunnable {
 			}
 			
 			displayScores.add(Utils.chat("&bTimer: &a"+timeString[0]+":"+timeString[1]+":"+timeString[2]));
-			
 		} else {
 			// Timer is not running
 			displayScores.add(Utils.chat("&bTimer not running."));
@@ -56,7 +58,7 @@ public class SidebarScoreboard extends BukkitRunnable {
 		displayScores.add(Utils.chat("Testing!"));
 		
 		for (String string : displayScores) {
-			sidebar.getScore(string).setScore(15 - displayScores.indexOf(string));
+			sidebar.getScore(string).setScore(displayScores.size() - displayScores.indexOf(string));
 		}
 		
 		// Set board to all players online.
@@ -64,7 +66,7 @@ public class SidebarScoreboard extends BukkitRunnable {
 		Bukkit.getOnlinePlayers().toArray(onlineArray);
 		
 		for (Player player : onlineArray) {
-			player.setScoreboard(board);
+			player.setScoreboard(display);
 		}
 	}
 	
