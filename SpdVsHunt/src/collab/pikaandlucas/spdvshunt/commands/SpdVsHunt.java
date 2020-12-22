@@ -3,6 +3,7 @@ package collab.pikaandlucas.spdvshunt.commands;
 import java.lang.ref.WeakReference;
 
 import org.bukkit.Bukkit;
+import org.bukkit.World;
 import org.bukkit.WorldBorder;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -365,6 +366,13 @@ public class SpdVsHunt implements CommandExecutor {
 								
 								timer.getScore("global").setScore(secs);
 								timerTask = new TimerRunable(this.plugin, this.boardRef).runTaskTimer(this.plugin, 10, 20);
+								
+								World[] worldsArray = new World[3];
+								Bukkit.getWorlds().toArray(worldsArray);
+								for (World world : worldsArray) {
+									world.getWorldBorder().setSize(1000);
+									world.getWorldBorder().setSize(100, secs);
+								}
 							}
 						}
 					}
