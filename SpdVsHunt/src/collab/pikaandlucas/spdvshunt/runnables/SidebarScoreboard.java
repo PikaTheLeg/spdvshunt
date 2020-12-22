@@ -55,7 +55,47 @@ public class SidebarScoreboard extends BukkitRunnable {
 			displayScores.add(Utils.chat("&bTimer not running."));
 		}
 		
-		displayScores.add(Utils.chat("Testing!"));
+		displayScores.add(Utils.chat("&0"));
+		
+		// Add Speedrunners 
+		ArrayList<String> runners = Utils.aliveRunners(board);
+		if (runners.size() == 0) {
+			displayScores.add(Utils.chat("&7No Alive Speedrunners"));
+		} else if (runners.size() > 3) {
+			displayScores.add(Utils.chat("&bSpeedrunners:"));
+			displayScores.add(Utils.chat(runners.get(0)));
+			displayScores.add(Utils.chat(runners.get(1)));
+			displayScores.add(Utils.chat(runners.get(2)));
+			int runnersLeft = runners.size() - 3;
+			displayScores.add(Utils.chat("And "+runnersLeft+ " more..."));
+		} else {
+			displayScores.add(Utils.chat("&bSpeedrunners:"));
+			for (String runner : runners) {
+				displayScores.add(Utils.chat(runner));
+			}
+		}
+		
+		displayScores.add(Utils.chat("&1"));
+		
+		// Add Hunters
+		String[] hunterArray = new String[hunters.getSize()]; 
+		hunters.getEntries().toArray(hunterArray);
+		
+		if (hunterArray.length == 0) {
+			displayScores.add(Utils.chat("&7No Active Hunters"));
+		} else if (hunterArray.length > 3) {
+			displayScores.add(Utils.chat("&cHunters:"));
+			displayScores.add(Utils.chat(hunterArray[0]));
+			displayScores.add(Utils.chat(hunterArray[1]));
+			displayScores.add(Utils.chat(hunterArray[2]));
+			int huntersLeft = hunterArray.length - 3;
+			displayScores.add(Utils.chat("And "+ huntersLeft + " more..."));
+		} else {
+			displayScores.add(Utils.chat("&cHunters:"));
+			for (String hunter : hunterArray) {
+				displayScores.add(Utils.chat(hunter));
+			}
+		}
 		
 		for (String string : displayScores) {
 			sidebar.getScore(string).setScore(displayScores.size() - displayScores.indexOf(string));
