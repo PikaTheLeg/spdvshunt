@@ -35,7 +35,7 @@ public class TimerRunable extends BukkitRunnable {
 		// while running update the timer on scoreboard
 		
 		int secs = timer.getScore("global").getScore();
-		if (secs <= 0) {
+		if (secs <= 0 && type.equals(ClockType.TIMER)) {
 			Bukkit.getServer().getPluginManager().callEvent(new TimerStop(secs, this.getTaskId(), ClockType.TIMER));
 			return;
 		}

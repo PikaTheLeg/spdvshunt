@@ -24,7 +24,8 @@ public class SVHTabComplete implements TabCompleter {
 				list.add("settings");
 				list.add("reset");
 				list.add("revive");
-				list.add("clock");
+				list.add("timer");
+				list.add("stopwatch");
 				list.add("help");
 			} else if (args.length == 2) {
 				switch (args[0].toLowerCase()) {
@@ -51,11 +52,18 @@ public class SVHTabComplete implements TabCompleter {
 							list.add(player.getName());
 						}
 						break;
-					case "clock":
+					case "timer":
 						list.add("start");
 						list.add("pause");
 						list.add("resume");
 						list.add("stop");
+						break;
+					case "stopwatch":
+						list.add("start");
+						list.add("pause");
+						list.add("resume");
+						list.add("stop");
+						break;
 					default:
 						break;
 				}
@@ -77,10 +85,6 @@ public class SVHTabComplete implements TabCompleter {
 							default:
 								break;
 						}
-					case "clock":
-						list.add("stopwatch");
-						list.add("timer");
-						break;
 					default:
 						break;
 				}

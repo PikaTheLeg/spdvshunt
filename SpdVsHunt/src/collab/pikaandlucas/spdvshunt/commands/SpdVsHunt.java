@@ -36,12 +36,14 @@ public class SpdVsHunt implements CommandExecutor {
 	Objective timer;
 	BukkitTask timerTask;
 	WorldBorder Border;
+	ClockType ClockRunning;
 	
 	private Main plugin;
 	
 	public SpdVsHunt(Main plugin, WeakReference<Scoreboard> boardRef) {
 		this.plugin = plugin;
 		this.boardRef = boardRef;
+		this.ClockRunning = ClockType.NONE;
 		
 		// Get scoreboard object.
 		board = (Scoreboard) boardRef.get();
@@ -187,15 +189,17 @@ public class SpdVsHunt implements CommandExecutor {
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		/* Usage:
-		 * args[0]: "join", "options", "clock", "reset", "revive", "help"
+		 * args[0]: "join", "options", "timer", "stopwatch", "reset", "revive", "help"
 		 * 
 		 * Joining Team:
 		 * args[1]: "speedrunner", "hunter", "none"
 		 * args[2]: <playername> - optional if player is a sender.
 		 * 
-		 * Clock:
+		 * timer:
 		 * args[1]: "start", "pause", "resume", "stop"
-		 * args[2]: "stopwatch", "timer"
+		 * 
+		 * stopwatch:
+		 * args[1]: "start", "pause", "resume", "stop"
 		 * 
 		 * Options:
 		 * args[1]: "hunterBarInfo", "runnerCompass", "border", "autoTracking"
@@ -344,80 +348,30 @@ public class SpdVsHunt implements CommandExecutor {
 				Bukkit.broadcastMessage(Utils.chat(plugin.getMessages().getString("spdVsHunt.reset")));
 				return true;
 				
-			} else if (args[0].equals("clock")) {
-				if (args[1].equals("start")) {
-					if (args[2].equals("timer")) {
-						if (timer.getScore("global").getScore() > 0) {
-							sender.sendMessage(Utils.chat(plugin.getMessages().getString("spdVsHunt.timerRunning")));
-						}
-						else {
-							if (args.length < 4) {
-								sender.sendMessage(Utils.chat(plugin.getMessages().getString("spdVsHunt.needToSpecifyTime")));
-								return false;
-							}
-							else {
-								int secs = 0;
-								try {
-									secs = Integer.parseInt(args[3]) * 60;
-								}
-								catch (NumberFormatException e) {
-									sender.sendMessage(Utils.chat(plugin.getMessages().getString("spdVsHunt.needToSpecifyTime")));
-									return false;
-								}
-								
-								timer.getScore("global").setScore(secs);
-								timerTask = new TimerRunable(this.plugin, this.boardRef, ClockType.TIMER).runTaskTimer(this.plugin, 10, 20);
-
-								
-								World[] worldsArray = new World[3];
-								Bukkit.getWorlds().toArray(worldsArray);
-								for (World world : worldsArray) {
-									world.getWorldBorder().setSize(1000);
-									world.getWorldBorder().setSize(100, secs);
-								}
-								
-								Utils.brodcastTitle("Timer start", null);
-							}
-						}
-					}
-					return true;
-				}
-				else if (args[1].equals("stop")) {
-					if (args[2].equals("timer")) {
-						if ((timer.getScore("global").getScore() > 0 && timer != null) || (timerTask != null && !timerTask.isCancelled())) {
-							Bukkit.getServer().getPluginManager().callEvent(new TimerStop(0, timerTask.getTaskId(), ClockType.TIMER));
-							timer.getScore("global").setScore(0);
-						}
-						else {
-							sender.sendMessage(Utils.chat(plugin.getMessages().getString("svhVsHunt.noTimerActive")));
-						}
-					}
-					return true;
-				}
-				else if (args[1].equals("pause")) {
-					if (args[2].equals("timer")) {
-						if ((timer.getScore("global").getScore() > 0 && timer != null) || (timerTask != null && !timerTask.isCancelled())) {
-							Bukkit.getServer().getPluginManager().callEvent(new TimerStop(timer.getScore("global").getScore(), timerTask.getTaskId(), ClockType.TIMER));
-						}
-						else {
-							sender.sendMessage(Utils.chat(plugin.getMessages().getString("svhVsHunt.noTimerActive")));
-						}
-					}
-					return true;
-				}
-				else if (args[1].equals("resume")) {
-					if (timer.getScore("global").getScore() > 0 && timer != null && timerTask.isCancelled()) {
-						Utils.brodcastTitle("Resumed timer", null);
-						timerTask = new TimerRunable(this.plugin, this.boardRef, ClockType.TIMER).runTaskTimer(this.plugin, 10, 20);
-						return true;
-					}
-					else {
-						sender.sendMessage(Utils.chat(plugin.getMessages().getString("svhVsHunt.noTimerActive")));
-						return false;
-					}
-				}
+			}
+			else if (args[0].equals("timer") && !ClockRunning.equals(ClockType.STOPWATCH)) {
+				boolean success = clockCommand(sender, args, ClockType.TIMER);
 				
-			} else if (args[0].equals("revive")) {
+				if (success) {
+					ClockRunning = ClockType.TIMER;
+					return true;
+				}
+				else {
+					return false;
+				}
+			} 
+			else if (args[0].equals("stopwatch") && !ClockRunning.equals(ClockType.TIMER)) {
+				boolean success = clockCommand(sender, args, ClockType.STOPWATCH);
+				
+				if (success) {
+					ClockRunning = ClockType.STOPWATCH;
+					return true;
+				}
+				else {
+					return false;
+				}
+			}
+			else if (args[0].equals("revive")) {
 				// Check if the player specified a playername. Otherwise they are likely specifying themselves.
 				Player player;
 				if (args.length > 1) {
@@ -485,4 +439,85 @@ public class SpdVsHunt implements CommandExecutor {
 		return false;
 	}
 	
+	
+	private boolean clockCommand(CommandSender sender, String[] args, ClockType type) {
+		if (args[1].equals("start")) {
+			if (timer.getScore("global").getScore() > 0) {
+				sender.sendMessage(Utils.chat(plugin.getMessages().getString("spdVsHunt.timerRunning")));
+				return false;
+			}
+			else {
+				if (args.length < 3 && type.equals(ClockType.TIMER)) {
+					sender.sendMessage(Utils.chat(plugin.getMessages().getString("spdVsHunt.needToSpecifyTime")));
+					return false;
+				}
+				else if (type.equals(ClockType.STOPWATCH)) {
+					timer.getScore("global").setScore(0);
+					timerTask = new TimerRunable(this.plugin, this.boardRef, type).runTaskTimer(this.plugin, 10, 20);
+					Utils.brodcastTitle("Stopwatch start", null);
+					return true;
+				}
+				else {
+					int secs = 0;
+					try {
+						secs = Integer.parseInt(args[2]) * 60;
+					}
+					catch (NumberFormatException e) {
+						sender.sendMessage(Utils.chat(plugin.getMessages().getString("spdVsHunt.needToSpecifyTime")));
+						return false;
+					}
+					
+					timer.getScore("global").setScore(secs);
+					timerTask = new TimerRunable(this.plugin, this.boardRef, type).runTaskTimer(this.plugin, 10, 20);
+
+					// world border start up
+					if (type.equals(ClockType.TIMER)) {
+						World[] worldsArray = new World[3];
+						Bukkit.getWorlds().toArray(worldsArray);
+						for (World world : worldsArray) {
+							world.getWorldBorder().setSize(1000);
+							world.getWorldBorder().setSize(100, secs);
+						}
+					}
+					
+					
+					Utils.brodcastTitle("Start", null);
+				}
+			}
+			return true;
+		}
+		else if (args[1].equals("stop")) {
+			if ((timer.getScore("global").getScore() > 0 && timer != null) || (timerTask != null && !timerTask.isCancelled())) {
+				Bukkit.getServer().getPluginManager().callEvent(new TimerStop(0, timerTask.getTaskId(), type));
+				timer.getScore("global").setScore(0);
+				ClockRunning = ClockType.NONE;
+			}
+			else {
+				sender.sendMessage(Utils.chat(plugin.getMessages().getString("svhVsHunt.noTimerActive")));
+			}
+			return true;
+		}
+		else if (args[1].equals("pause")) {
+			if ((timer.getScore("global").getScore() > 0 && timer != null) || (timerTask != null && !timerTask.isCancelled())) {
+				Bukkit.getServer().getPluginManager().callEvent(new TimerStop(timer.getScore("global").getScore(), timerTask.getTaskId(), type));
+				return true;
+			}
+			else {
+				sender.sendMessage(Utils.chat(plugin.getMessages().getString("svhVsHunt.noTimerActive")));
+				return false;
+			}
+		}
+		else if (args[1].equals("resume")) {
+			if (timer.getScore("global").getScore() > 0 && timer != null && timerTask.isCancelled()) {
+				Utils.brodcastTitle("Resumed", null);
+				timerTask = new TimerRunable(this.plugin, this.boardRef, type).runTaskTimer(this.plugin, 10, 20);
+				return true;
+			}
+			else {
+				sender.sendMessage(Utils.chat(plugin.getMessages().getString("svhVsHunt.noTimerActive")));
+				return false;
+			}
+		}
+		return true;
+	}
 }
