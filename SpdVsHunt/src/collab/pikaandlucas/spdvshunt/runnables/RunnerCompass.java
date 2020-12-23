@@ -62,7 +62,7 @@ public class RunnerCompass extends BukkitRunnable {
 		if (aliveRunners.size() > 1) {			
 			
 			// If current selection is out of bounds. Set to 0.
-			if (aliveRunners.size() >= playerSelect.getScore()) {
+			if (aliveRunners.size() <= playerSelect.getScore()) {
 				playerSelect.setScore(0);
 			}
 			
