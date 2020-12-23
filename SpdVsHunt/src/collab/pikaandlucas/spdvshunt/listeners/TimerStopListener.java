@@ -11,7 +11,7 @@ public class TimerStopListener implements Listener {
 	
 	@EventHandler
 	public void onTimerStop(TimerStop e) {
-		Utils.brodcastTitle("Timmer has stopped", null);
+		Utils.brodcastTitle("Timer has stopped", null);
 		
 		int taskID = e.getTaskID();
 		

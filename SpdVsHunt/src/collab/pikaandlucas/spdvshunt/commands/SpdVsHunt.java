@@ -15,6 +15,7 @@ import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
 import collab.pikaandlucas.spdvshunt.Main;
+import collab.pikaandlucas.spdvshunt.enums.ClockType;
 import collab.pikaandlucas.spdvshunt.events.TimerStop;
 import collab.pikaandlucas.spdvshunt.runnables.HunterCompass;
 import collab.pikaandlucas.spdvshunt.runnables.RunnerCompass;
@@ -365,7 +366,7 @@ public class SpdVsHunt implements CommandExecutor {
 								}
 								
 								timer.getScore("global").setScore(secs);
-								timerTask = new TimerRunable(this.plugin, this.boardRef).runTaskTimer(this.plugin, 10, 20);
+								timerTask = new TimerRunable(this.plugin, this.boardRef, ClockType.TIMER).runTaskTimer(this.plugin, 10, 20);
 
 								
 								World[] worldsArray = new World[3];
@@ -384,7 +385,7 @@ public class SpdVsHunt implements CommandExecutor {
 				else if (args[1].equals("stop")) {
 					if (args[2].equals("timer")) {
 						if ((timer.getScore("global").getScore() > 0 && timer != null) || (timerTask != null && !timerTask.isCancelled())) {
-							Bukkit.getServer().getPluginManager().callEvent(new TimerStop(0, timerTask.getTaskId()));
+							Bukkit.getServer().getPluginManager().callEvent(new TimerStop(0, timerTask.getTaskId(), ClockType.TIMER));
 							timer.getScore("global").setScore(0);
 						}
 						else {
@@ -396,7 +397,7 @@ public class SpdVsHunt implements CommandExecutor {
 				else if (args[1].equals("pause")) {
 					if (args[2].equals("timer")) {
 						if ((timer.getScore("global").getScore() > 0 && timer != null) || (timerTask != null && !timerTask.isCancelled())) {
-							Bukkit.getServer().getPluginManager().callEvent(new TimerStop(timer.getScore("global").getScore(), timerTask.getTaskId()));
+							Bukkit.getServer().getPluginManager().callEvent(new TimerStop(timer.getScore("global").getScore(), timerTask.getTaskId(), ClockType.TIMER));
 						}
 						else {
 							sender.sendMessage(Utils.chat(plugin.getMessages().getString("svhVsHunt.noTimerActive")));
@@ -407,7 +408,7 @@ public class SpdVsHunt implements CommandExecutor {
 				else if (args[1].equals("resume")) {
 					if (timer.getScore("global").getScore() > 0 && timer != null && timerTask.isCancelled()) {
 						Utils.brodcastTitle("Resumed timer", null);
-						timerTask = new TimerRunable(this.plugin, this.boardRef).runTaskTimer(this.plugin, 10, 20);
+						timerTask = new TimerRunable(this.plugin, this.boardRef, ClockType.TIMER).runTaskTimer(this.plugin, 10, 20);
 						return true;
 					}
 					else {
