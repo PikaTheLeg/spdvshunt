@@ -442,7 +442,7 @@ public class SpdVsHunt implements CommandExecutor {
 	
 	private boolean clockCommand(CommandSender sender, String[] args, ClockType type) {
 		if (args[1].equals("start")) {
-			if (timer.getScore("global").getScore() > 0) {
+			if (!ClockRunning.equals(ClockType.NONE)) {
 				sender.sendMessage(Utils.chat(plugin.getMessages().getString("spdVsHunt.timerRunning")));
 				return false;
 			}
