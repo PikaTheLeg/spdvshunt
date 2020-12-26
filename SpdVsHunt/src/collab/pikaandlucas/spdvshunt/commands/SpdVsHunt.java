@@ -18,6 +18,7 @@ import collab.pikaandlucas.spdvshunt.Main;
 import collab.pikaandlucas.spdvshunt.enums.ClockType;
 import collab.pikaandlucas.spdvshunt.events.TimerStop;
 import collab.pikaandlucas.spdvshunt.runnables.HunterCompass;
+import collab.pikaandlucas.spdvshunt.runnables.MovePlayer;
 import collab.pikaandlucas.spdvshunt.runnables.RunnerCompass;
 import collab.pikaandlucas.spdvshunt.runnables.TimerRunable;
 import collab.pikaandlucas.spdvshunt.utils.Utils;
@@ -109,7 +110,8 @@ public class SpdVsHunt implements CommandExecutor {
 					
 					// tell all players on server that player has joined the speedrunner team
 					Bukkit.broadcastMessage(Utils.chat(plugin.getMessages().getString("spdVsHunt.joinSpd").replace("<player>", player.getName())));
-					
+
+					new MovePlayer(this.plugin, player, boardRef).runTaskTimer(this.plugin, 10, 10);
 					// if config is set so that speedrunners are allowed to have a tracker compass for other speedrunners
 					if (plugin.getConfig().getString("options.runnerCompass").equals("true")) {
 						// create a new runner compass
@@ -390,6 +392,7 @@ public class SpdVsHunt implements CommandExecutor {
 							// Revive player. Player rejoins.
 							deaths.getScore(player.getName()).setScore(0);
 							new RunnerCompass(this.plugin, player, boardRef).runTaskTimer(this.plugin, 10, 10);
+							new MovePlayer(this.plugin, player, boardRef).runTaskTimer(this.plugin, 10, 10);
 							Bukkit.broadcastMessage(Utils.chat(plugin.getMessages().getString("spdVsHunt.revive").replace("<player>", player.getName())));
 						} else {
 							// Error as player is still alive.

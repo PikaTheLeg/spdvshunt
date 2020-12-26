@@ -1,22 +1,20 @@
-package collab.pikaandlucas.spdvshunt.listeners;
+package collab.pikaandlucas.spdvshunt.runnables;
 
 import java.lang.ref.WeakReference;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Score;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
 import collab.pikaandlucas.spdvshunt.Main;
+import collab.pikaandlucas.spdvshunt.utils.Utils;
 
-public class MovePlayer implements Listener {
+public class MovePlayer extends BukkitRunnable {
 	Scoreboard board;
 	Team speedrunners;
 	Objective overworldCoords;
@@ -26,22 +24,22 @@ public class MovePlayer implements Listener {
 	Score playerY;
 	Score playerZ;
 	
-	public MovePlayer(Main plugin, WeakReference<Scoreboard> boardRef) {
+	Player player;
+	
+	public MovePlayer(Main plugin, Player player, WeakReference<Scoreboard> boardRef) {
+		this.player = player;
+		
 		board = (Scoreboard) boardRef.get();
 		speedrunners = board.getTeam("svhSpeedrunners");
 		overworldCoords = board.getObjective("overworldCoords");
 		netherCoords = board.getObjective("netherCoords");
 		endCoords = board.getObjective("endCoords");
-		
-		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}
 	
-	@EventHandler
-	public void onMove(PlayerMoveEvent e) {
-		Player player = e.getPlayer();
-		
-		if (speedrunners.hasEntry(player.getName())) {
-			Location location = e.getTo();
+	@Override
+	public void run() {
+		if (Utils.aliveRunners(board).indexOf(player.getName()) != -1) {
+			Location location = player.getLocation();
 			
 			World.Environment world = location.getWorld().getEnvironment();
 			int x = location.getBlockX();
@@ -71,6 +69,8 @@ public class MovePlayer implements Listener {
 			playerX.setScore(x);
 			playerY.setScore(y);
 			playerZ.setScore(z);
+		} else {
+			this.cancel();
 		}
 	}
 }

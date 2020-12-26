@@ -16,7 +16,6 @@ import collab.pikaandlucas.spdvshunt.listeners.ClickCompass;
 import collab.pikaandlucas.spdvshunt.listeners.DeathPlayer;
 import collab.pikaandlucas.spdvshunt.listeners.DisconnectPlayer;
 import collab.pikaandlucas.spdvshunt.listeners.MoveCompass;
-import collab.pikaandlucas.spdvshunt.listeners.MovePlayer;
 import collab.pikaandlucas.spdvshunt.listeners.TimerStopListener;
 import collab.pikaandlucas.spdvshunt.runnables.SidebarScoreboard;
 
@@ -82,7 +81,6 @@ public class Main extends JavaPlugin {
 		// List Commands and Listeners.
 		new SpdVsHunt(this, boardRef);
 		new MoveCompass(this, boardRef);
-		new MovePlayer(this, boardRef);
 		new ClickCompass(this, boardRef);
 		new DeathPlayer(this, boardRef);
 		new DisconnectPlayer(this, boardRef);
