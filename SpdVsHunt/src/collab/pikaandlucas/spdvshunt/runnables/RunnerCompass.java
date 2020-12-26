@@ -72,7 +72,8 @@ public class RunnerCompass extends BukkitRunnable {
 				if (aliveRunners.size() > playerSelect.getScore() + 1) {
 					// Select the next Speedrunner
 					playerSelect.setScore(playerSelect.getScore() + 1);
-				} else {
+				}
+				else {
 					// Return to the first Speedrunner
 					playerSelect.setScore(0);
 				}
